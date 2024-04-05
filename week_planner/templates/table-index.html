@@ -1,0 +1,26 @@
+<table class="table table-striped" id="index_table">
+    <thead>
+        <tr>
+            <th class="text-start">Time</th>
+            {% for day in days %}
+                <th class="text-end">{{ day.day_name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for start in starts %}
+            <tr>
+                <td>{{ start.start }}</td>
+                {% for day in days %}
+                    <td class="text-end">
+                        {% for task in tasks %}
+                            {% if task.day_id == day.id and task.start == start.start %}
+                                {{ task.title }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

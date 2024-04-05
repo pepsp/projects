@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Week
+{% endblock %}
+
+{% block main %}
+<form action="/edit" method="post">
+    <div class="form-group">
+        <label><b>Select days:</b></label><br>
+        <div class="mb-3" style="max-height: 200px; overflow-y: auto;">
+            {% for day in days %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="day{{ day.id }}" name="day" value="{{ day.id }}">
+                    <label class="form-check-label" for="day{{ day.id }}">{{ day.day_name }}</label>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <label><b>Select start time for task:</b></label>
+    <div class="mb-3" style="max-height: 200px; overflow-y: auto;">
+        <div class="mb-3" style="max-height: 200px; overflow-y: auto;">
+            <select class="form-select mx-auto w-auto" name="start" required>
+                <option disabled selected>Start Time</option>
+                {% for hour in range(24) %}
+                    {% for minute in ['00', '30'] %}
+                        <option value='{{ "{:02d}:{:s}".format(hour, minute) }}'>{{ "{:02d}:{:s}".format(hour, minute) }}</option>
+                    {% endfor %}
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+
+
+    <div class="mb-3">
+    <label><b>Enter your task:</b></label>
+        <input autocomplete="off" class="form-control mx-auto w-auto" min="1" name="task" placeholder="Task" type="text" required>
+    </div>
+    <button class="btn btn-primary" type="submit">Enter Task</button>
+</form>
+
+<div class="mb-3">
+    <br>
+{% include 'table-index.html' %}
+
+{% endblock %}
+</div>
