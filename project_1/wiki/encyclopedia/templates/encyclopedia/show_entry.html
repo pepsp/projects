@@ -6,10 +6,11 @@
 
 {% block body %}
     {{ entry | safe }}
-{% endblock %}
-
-{% block nav %}
-<div>
-    <a href="{% url 'edit' %}">Edit Page</a>
-</div>
+    <div>
+        <form action="{% url 'edit' %}" method="POST">
+            <input type="hidden" name="entry_title" value="{{ title }}">
+            <input type="submit" value="Edit" class="btn btn-primary">
+        </form>
+    </div>
+    
 {% endblock %}
