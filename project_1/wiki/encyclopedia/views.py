@@ -20,9 +20,8 @@ def wiki(request, title):
         })
     
     else:
-        # Si la entrada no existe, devolver un mensaje de error
-        return render(request, "encyclopedia/error_notfound.html", {
-            "title": title
+        return render(request, "encyclopedia/error.html", {
+            "message": "This entry does not exist"
             })
 
 def search(request):
@@ -46,6 +45,14 @@ def create(request):
     if request.method == "POST":
         title = request.POST["title"]
         content = request.POST["content"]
+        title_exist = util.get_entry(title)
+        if title_exist is not None:
+            return render(request, "encyclopedia/error.html", {
+                "message": "This entry already exists"})
+        else:
+            util.save_entry(title, content)
+            entry_html = markdown.markdown(title)
+            return redirect("wiki", title=title)
     return render(request, "encyclopedia/create.html")
 
 def random_entry(request):
@@ -57,4 +64,19 @@ def random_entry(request):
         })
 
 
+def edit(request):
+    if request.method == "POST":
+        title = request.POST["entry_title"]
+        content = util.get_entry(title)
+        return render(request, "encyclopedia/edit.html", {
+            "title": title,
+            "content": content
+            })
+    
 
+def save_edit(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        content = request.POST["content"]
+        util.save_entry(title, content)
+        return redirect("wiki", title=title)

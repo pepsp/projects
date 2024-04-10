@@ -1,6 +1,7 @@
 body {
     margin: 0;
     background-color: white;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 code {
@@ -9,7 +10,33 @@ code {
 
 h1 {
     margin-top: 0px;
+    margin-bottom: 40px;
     padding-top: 20px;
+    text-align: center;
+}
+.title{
+    margin-top: 0px;
+    margin-bottom: 40px;
+    padding-top: 20px;
+}
+
+.btn{
+    margin-top: 20px;
+}
+
+ul{
+    margin-top: 0px;
+    padding-top: 20px;
+    text-align: center;
+    list-style-type: none;
+      
+}
+ul li{
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+
 }
 
 textarea {
@@ -28,11 +55,48 @@ textarea {
 }
 
 .sidebar {
-    background-color: #f0f0f0;
+    background-color: #c4d5ec;
     height: 100vh;
     padding: 20px;
 }
 
 .sidebar h2 {
     margin-top: 5px;
+    font-weight: bolder;
 }
+
+.sidebar a{
+    font-weight: bolder;
+}
+.sidebar a:hover{
+    color: red;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.sidebar>form>input{
+
+    margin-bottom: 15px;
+
+}
+  .show-entry{
+    text-align: center;
+
+  }
+
+  .center{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
+
+  textarea{
+    width: 600px;
+    height: 300px;
+  }
+
+  .sidebar{
+    border-right: steelblue;
+    border-right-style: solid;
+    border-right-width: 5px;
+  }
