@@ -5,7 +5,19 @@ Create New Page
 {% endblock %}
 
 {% block body %}
-    
-<p>Hello, World.</p>
+    <h1>New Page</h1>
+    <form action="{% url 'create'%}" method="POST">
+        {% csrf_token %}
+        <label>Title:</label>
+        <input type="text" name="title" placeholder="Enter a title...">
+        <br/>
+        <label for="content">Markdown Content:</label>
+        <br/>
+        <textarea id="content" name="content" rows="2" cols="25">
+        </textarea>
+        <br/>
+        <input type="submit" value="Add new page" class="btn btn-primary">
+        
 
+    </form>
 {% endblock %}

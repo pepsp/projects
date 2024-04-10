@@ -43,6 +43,9 @@ def search(request):
         
 
 def create(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        content = request.POST["content"]
     return render(request, "encyclopedia/create.html")
 
 def random_entry(request):
