@@ -1,0 +1,81 @@
+.header {
+    padding: 20px;
+    text-align: right;
+    color: rgb(0, 0, 0);
+    font-size: 10px;
+  }
+  .header p{
+    display: inline;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 1.3rem;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+  }
+
+  .header p:hover{
+    color: red;
+  }
+  .header a{
+    text-decoration: none;
+  }
+
+  .search-container {
+    text-align: center;
+  }
+
+  .search-bar {
+    width: 300px; /* Adjust width as needed */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px; /* Adjust border radius as needed */
+  }
+
+  .search-button {
+    margin-top: 10px; /* Adjust spacing between search bar and button */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px; /* Adjust border radius to match search bar */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .logo{
+    text-align: center;
+    margin-top: 200px;
+    margin-bottom: 30px;
+  }
+
+  .advanced-input-container{
+    margin: auto;
+  }
+  .advanced-input-container label{
+    margin-left: 25px;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+        
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+.form-group input {
+width: 100%;
+padding: 8px;
+border: 1px solid #ccc;
+border-radius: 5px;
+box-sizing: border-box;
+}
+
+.btn {
+background-color: #1a73e8;
+color: white;
+border: none;
+border-radius: 5px;
+padding: 10px 20px;
+cursor: pointer;
+}
