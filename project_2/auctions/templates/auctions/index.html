@@ -2,6 +2,18 @@
 
 {% block body %}
     <h2>Active Listings</h2>
-
-    TODO
+    {% for listing in listings %}
+    <div>
+        <h1>{{ listing.title }}</h1>
+        <p>{{ listing.description }}</p>
+    </div>
+    <div>
+        <img src="{{ listing.image_url }}"/>
+    </div>
+    <p>Base price: {{ listing.base_price }}</p>
+    <p>Current bid: {{ listing.current_bid }}</p>
+    <p>Published by: <b>{{ listing.owner }}</b></p>
+    {% empty %}
+    <h1>No listings</h1>
+    {% endfor %}
 {% endblock %}

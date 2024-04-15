@@ -14,7 +14,9 @@ class Listing(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="user")
     watchlist = models.ManyToManyField(User, blank=True, null=True, related_name="listing_watchlist")
-    price = models.ForeignKey('Bid',blank=True, null=True, on_delete=models.CASCADE, related_name="listing_price")
+    base_price = models.DecimalField(max_digits=10, decimal_places=2)
+    current_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
 
     def __str__(self):
         return self.title

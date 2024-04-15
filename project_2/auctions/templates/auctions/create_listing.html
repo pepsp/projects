@@ -5,7 +5,11 @@
 
     <h2>Publish a new item for sale</h2>
     <div>
-        
+        <form action="{% url 'new' %}", method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit Listing">
+        </form>
     </div>
     
 {% endblock %}

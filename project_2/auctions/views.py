@@ -4,11 +4,23 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import *
+from django import forms
 
 
+class NewListingForm(forms.Form):
+    title = forms.CharField(label="Title:", widget=forms.TextInput(attrs={'placeholder': "Enter item name"}))
+    description = forms.CharField(label="Item's description:", widget=forms.TextInput(attrs={'placeholder': "Enter an item description"}))
+    image_url= forms.CharField(label="Image URL:", widget=forms.TextInput(attrs={"placeholder": "Enter image URL"}))
+    category = forms.ModelChoiceField(label="Choose a Category", queryset=Category.objects.all(), initial=9, required=True)
+    owner = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+    base_price = forms.DecimalField(label="Enter price:", widget=forms.TextInput(attrs={'placeholder': '00.00$'}))
+
+    
 def index(request):
-    return render(request, "auctions/index.html")
+    return render(request, "auctions/index.html", {
+        "listings": Listing.objects.all
+    })
 
 
 def login_view(request):
@@ -65,7 +77,26 @@ def register(request):
 
 
 def new(request):
-        return render(request, "auctions/create_listing.html")
+    if request.method == "POST":
+        form = NewListingForm(request.POST)
+        if form.is_valid():
+            new_listing = Listing(
+                title = form.cleaned_data["title"],
+                description = form.cleaned_data["description"],
+                base_price = form.cleaned_data["base_price"],
+                image_url = form.cleaned_data["image_url"],
+                category = form.cleaned_data["category"],
+                owner = request.user
+            )
+            new_listing.save()
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "auctions/create_listing.html", {"form": form})
+
+    else:
+        return render(request, "auctions/create_listing.html", {
+                "form": NewListingForm()
+                    })
 
 
 def categories(request):
