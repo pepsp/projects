@@ -3,17 +3,27 @@
 {% block body %}
     <h2>Active Listings</h2>
     {% for listing in listings %}
-    <div>
-        <h1>{{ listing.title }}</h1>
-        <p>{{ listing.description }}</p>
-    </div>
-    <div>
-        <img src="{{ listing.image_url }}"/>
-    </div>
-    <p>Base price: {{ listing.base_price }}</p>
-    <p>Current bid: {{ listing.current_bid }}</p>
-    <p>Published by: <b>{{ listing.owner }}</b></p>
-    {% empty %}
-    <h1>No listings</h1>
+    <div class="card-container">
+    <a href="hello.html">
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{listing.image_url}}" class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{listing.title}}</h5>
+              <p class="card-text">Initial price: <b>{{listing.base_price}}</b></p>
+              <p class="card-text">Latest bid: <b>{{listing.current_bid}}</b></p>
+              <p class="card-text"><small class="text-body-secondary"><em>Published by: </em><b>{{listing.owner}}</b></small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </a>
+      </div>
+
+        {% empty %}
+        <h1>No listings</h1>
     {% endfor %}
 {% endblock %}

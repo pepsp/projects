@@ -1,3 +1,19 @@
 body {
     padding: 10px;
 }
+
+
+.card-container:hover {
+    cursor: pointer; /* Change cursor to pointer */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+    transition: box-shadow 0 ease; /* Add transition for smooth effect */
+  }
+
+.card-container{
+    width: fit-content;
+    height: fit-content;
+}
+.card-container a{
+    text-decoration: none;
+    color: inherit;
+}
