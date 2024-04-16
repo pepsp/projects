@@ -1,0 +1,12 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h1>Item id: {{listing.id}}</h1>
+
+{% for comment in comments %}
+
+{% empty %}
+<h1>No comments.</h1>
+
+{% endfor %}
+{% endblock %}

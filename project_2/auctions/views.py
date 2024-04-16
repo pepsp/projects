@@ -2,8 +2,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
 
+from django.urls import reverse
+from django.shortcuts import get_object_or_404
 from .models import *
 from django import forms
 
@@ -105,3 +106,14 @@ def categories(request):
 
 def watchlist(request):
     return render(request, "auctions/watchlist.html")
+
+def item(request, id):
+    listing = get_object_or_404(Listing, pk=id)
+    comments = Comment.objects.filter(listing=listing)
+    
+    return render(request, "auctions/item.html", {
+        "listing": listing,
+        "comments": comments
+
+    } )
+
