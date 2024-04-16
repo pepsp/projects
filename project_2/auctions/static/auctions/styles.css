@@ -1,7 +1,10 @@
+h2{
+    margin-bottom: 30px;
+    text-align: center;
+}
 body {
     padding: 10px;
 }
-
 
 .card-container:hover {
     cursor: pointer;
@@ -29,4 +32,10 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 24px;
     font-weight: bold; 
+}
+
+
+.container{
+    margin-right: 1%;
+    margin-top: 6%;
 }
