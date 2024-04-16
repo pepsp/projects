@@ -16,17 +16,42 @@
   </div>
 
   {% if listing.owner == user %}
-  <form method="post" action="">
-    <button type="submit">End bidding</button>
+  <div class="item">
+  <form method="post" action=" {% url 'end' %}">
+    <button type="submit" class="btn btn-primary">
+      <i class="fas fa-dollar-sign"></i> Sell 
+    </button>
+
+    <button type="submit" class="btn btn-primary">
+      <i class="fas fa-ban"></i> Cancel bidding
+    </button>
+
   </form>
+</div>
+
   {% else %}
-  <p>this shit not mine</p>
+  <div class="item">
+    <form method="post" action="{% url 'bid' %}">
+      <input type="number" placeholder="Enter your bid...">
+      <button type="submit" class="btn btn-success">
+      <i class="fas fa-dollar-sign"></i> Bid 
+        </button>
+      </form>
+    </div>
+
+  </form>
   {% endif %}
 
+
+  
+      <div class="text-center">
+        {% include 'auctions/add_comment.html' %}
+      </div>
 {% for comment in comments %}
 
 {% empty %}
+<div class="item">
 <h1>No comments.</h1>
-
+</div>
 {% endfor %}
 {% endblock %}
