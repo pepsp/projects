@@ -1,10 +1,4 @@
-{% extends "auctions/layout.html" %}
-
-{% block body %}
-    <h2>Active Listings</h2>
-    {% for listing in listings %}
-    {% if listing.is_active == True %}
-    <div class="card-container mx-auto">
+<div class="card-container mx-auto">
     <div class="card mb-3" style="max-width: 540px;">
         <a href="{% url 'item' listing.id %}">
         <div class="row g-0">
@@ -17,17 +11,9 @@
               <p class="card-text description">{{listing.description}}</p>
               <p class="card-text">Initial price: <b>{{listing.base_price}}</b></p>
               <p class="card-text">Latest bid: <b>{{listing.current_bid}}</b></p>
-              <p class="card-text"><small class="text-body-secondary"><em>Published by: </em><b>{{listing.owner}}</b></small></p>
             </div>
           </div>
         </div>
       </div>
       </a>
       </div>
-
-
-    {% endif %}
-    {% empty %}
-    <h1>No listings</h1>
-    {% endfor %}
-{% endblock %}

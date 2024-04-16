@@ -2,29 +2,24 @@
 
 {% block body %}
     <h2>My Listings</h2>
-    {% for listing in listings %}
-    {% if listing.is_active == True %}
-    <div class="card-container mx-auto">
-    <div class="card mb-3" style="max-width: 540px;">
-        <a href="{% url 'item' listing.id %}">
-        <div class="row g-0">
-          <div class="col-md-4">
-                <img src="{{listing.image_url}}" class="img-fluid rounded-start" alt="{{listing.title}}">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{listing.title}}</h5>
-              <p class="card-text description">{{listing.description}}</p>
-              <p class="card-text">Initial price: <b>{{listing.base_price}}</b></p>
-              <p class="card-text">Latest bid: <b>{{listing.current_bid}}</b></p>
-            </div>
-          </div>
+    {% for listing in active_listings %}
+        <div class="card-container mx-auto">
+            {% include 'auctions/listing_card.html' %}
         </div>
-      </div>
-      </a>
-      </div>
-      {% endif %}
-        {% empty %}
-        <h1>No listings</h1>
+    {% empty %}
+        <div class="empty">
+            <p>No active listings</p>
+        </div>
+    {% endfor %}
+
+    <h2>Finished Listings</h2>
+    {% for listing in finished_listings %}
+        <div class="card-container mx-auto">
+            {% include 'auctions/listing_card.html' %}
+        </div>
+    {% empty %}
+        <div class="empty">
+            <p>No finished listings</p>
+        </div>
     {% endfor %}
 {% endblock %}
