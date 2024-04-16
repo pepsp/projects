@@ -6,11 +6,11 @@
 <h2>Publish a new item for sale</h2>
 
 
-<form>
+<form action="{% url 'new' %}" method="post">
+    {% csrf_token %}
     <div class="container">
         <div class="row">
             <div class="col-md-8 mx-auto">
-                <form>
                     <div class="form-group row">
                         <label for="id_title" class="col-sm-2 col-form-label">Title:</label>
                         <div class="col-sm-10">
@@ -46,7 +46,6 @@
                             <button type="submit" class="btn btn-primary">Submit Listing</button>
                         </div>
                     </div>
-                </form>
             </div>
         </div>
     </div>
