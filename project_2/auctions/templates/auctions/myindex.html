@@ -3,7 +3,7 @@
 {% block body %}
     <h2>My Listings</h2>
     {% for listing in active_listings %}
-        <div class="card-container mx-auto">
+        <div class="card-container">
             {% include 'auctions/listing_card.html' %}
         </div>
     {% empty %}
@@ -14,7 +14,7 @@
 
     <h2>Finished Listings</h2>
     {% for listing in finished_listings %}
-        <div class="card-container mx-auto">
+        <div class="card-container">
             {% include 'auctions/listing_card.html' %}
         </div>
     {% empty %}
