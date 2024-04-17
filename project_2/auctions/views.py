@@ -4,8 +4,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 from django.urls import reverse
+from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 from .models import *
+from django.http import JsonResponse
 from django import forms
 
 
@@ -17,7 +19,10 @@ class NewListingForm(forms.Form):
     owner = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     base_price = forms.DecimalField(label="Enter price:", widget=forms.TextInput(attrs={'placeholder': '00.00$'}))
 
-    
+class NewCommentForm(forms.Form):
+    comment = forms.CharField(label="", widget=forms.Textarea(attrs={'placeholder': 'Enter your comment', 'class': 'form-control', 'rows': '3'}))
+
+
 def index(request):
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.all
@@ -109,11 +114,44 @@ def watchlist(request):
 
 def item(request, id):
     listing = get_object_or_404(Listing, pk=id)
+    user = request.user
     comments = Comment.objects.filter(listing=listing)
-    
+
+    if request.method == "POST": 
+        if 'submit-comment' in request.POST:
+            comment_form = NewCommentForm(request.POST)
+            if comment_form.is_valid():
+                new_comment = Comment(
+                    listing = listing,
+                    author = request.user,
+                    comment = comment_form.cleaned_data["comment"]
+                    )
+                new_comment.save()
+                return redirect('item', id=id)
+            else:
+                comment_form = NewCommentForm()
+        else:
+            comment_form = NewCommentForm()
+
     return render(request, "auctions/item.html", {
         "listing": listing,
-        "comments": comments
+        "comments": comments,
+        "user": request.user,
+        "comment_form": NewCommentForm()
 
     } )
+
+def myindex(request):
+     active_listings = Listing.objects.filter(owner=request.user, is_active=True)
+     finished_listings = Listing.objects.filter(owner=request.user, is_active=False)
+     return render(request, "auctions/myindex.html", {
+        "active_listings": active_listings,
+        "finished_listings": finished_listings
+    })
+
+def end(request):
+    pass
+
+def bid(request):
+    pass
 

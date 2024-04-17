@@ -10,5 +10,6 @@ urlpatterns = [
     path("new", views.new, name="new"),
     path("categories", views.categories, name="categories"),
     path("watchlist", views.watchlist, name="watchlist"),
-    path("item/<int:id>", views.item, name="item")
+    path("item/<int:id>", views.item, name="item"),
+    path("myindex", views.myindex, name="myindex")
 ]

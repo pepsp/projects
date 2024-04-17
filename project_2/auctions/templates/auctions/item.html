@@ -17,38 +17,26 @@
 
   {% if listing.owner == user %}
   <div class="item">
-  <form method="post" action=" {% url 'end' %}">
-    <button type="submit" class="btn btn-primary">
-      <i class="fas fa-dollar-sign"></i> Sell 
-    </button>
-
-    <button type="submit" class="btn btn-primary">
-      <i class="fas fa-ban"></i> Cancel bidding
-    </button>
-
-  </form>
-</div>
+  {% include 'auctions/sell.html' %}
+  </div>
 
   {% else %}
   <div class="item">
-    <form method="post" action="{% url 'bid' %}">
-      <input type="number" placeholder="Enter your bid...">
-      <button type="submit" class="btn btn-success">
-      <i class="fas fa-dollar-sign"></i> Bid 
-        </button>
-      </form>
+   {% include 'auctions/bid.html' %}
     </div>
 
-  </form>
   {% endif %}
 
 
-  
+  <div class="comment-section">
+
       <div class="make-comment">
         {% include 'auctions/add_comment.html' %}
       </div>
 {% for comment in comments %}
+  {% include 'auctions/comment.html' %}
 
+</div>
 {% empty %}
 <div class="item">
 <h1>No comments.</h1>

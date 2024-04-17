@@ -1,21 +1,40 @@
 h2{
-    margin-bottom: 30px;
+    margin-bottom: 5px;
     text-align: center;
 }
+.published{
+    margin-bottom: 15px;
+    text-align: center;
+}
+.card-container img{
+    max-width: 200px;
+    max-height: 300px;
+}
+
+.item{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+
 body {
     padding: 10px;
 }
 
 .card-container:hover {
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: box-shadow 0 ease;
-  }
+    box-shadow: 0 0 10px gray;
+}
 
 .card-container{
-    width: fit-content;
-    height: fit-content;
+    max-width: 540px;
+    max-height: 540px;
+    margin: 20px auto;
+    padding: auto 0;
 }
+
+
 .card-container a{
     text-decoration: none;
     color: inherit;
@@ -36,6 +55,49 @@ body {
 
 
 .container{
-    margin-right: 1%;
-    margin-top: 6%;
+    margin-left: 30%;
+    margin-top: 5%;
+}
+
+.img-container {
+    width: 300px; /* Adjust this width according to your div size */
+    height: 200px; /* Adjust this height according to your div size */
+    overflow: hidden; /* Ensure image doesn't overflow */
+    position: relative; /* Establish positioning context for absolutely positioned children */
+}
+
+.img-container img {
+    width: 100%; /* Ensure the image stretches to fill the container horizontally */
+    height: 100%; /* Ensure the image stretches to fill the container vertically */
+    object-fit: cover; /* Maintain aspect ratio while covering the container */
+}
+
+
+.empty{
+    margin-top: 25px;
+    margin-bottom: 25px;
+    text-align: center;
+    color: red;
+
+}
+
+.comment-section {
+    padding: auto;
+    max-width: 600px;
+    margin: 25px auto;
+    }
+
+
+.comment-box{
+    max-width: 250px;
+    margin: 25px auto;
+    border: solid;
+    border-width: 1px;
+    border-color: black;
+    text-align: center;
+}
+.author-row{
+    border: solid;
+    border-width: 1px;
+    border-color: black;
 }

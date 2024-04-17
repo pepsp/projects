@@ -1,8 +1,9 @@
 
     <h2>Leave a Comment</h2>
-    <form>
-        <textarea class="form-control" id="comment" rows="3" placeholder="Enter your comment"></textarea>
+    <form action="{% url 'item' listing.id %}" method="POST">
+      {% csrf_token %}
+      {{ comment_form.as_p}}
       <div class="item">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <input type="submit" class="btn btn-primary" value="Submit" name="submit-comment">
       </div>
     </form>
