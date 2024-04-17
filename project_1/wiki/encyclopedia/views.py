@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import util
-import markdown
+import markdown2
 import random
 
 
@@ -13,7 +13,7 @@ def index(request):
 def wiki(request, title):
     entry = util.get_entry(title) 
     if entry:
-         entry_html = markdown.markdown(entry)
+         entry_html = markdown2.markdown(entry)
          return render(request, "encyclopedia/show_entry.html", {
              "entry": entry_html,
             "title": title
@@ -51,13 +51,13 @@ def create(request):
                 "message": "This entry already exists"})
         else:
             util.save_entry(title, content)
-            entry_html = markdown.markdown(title)
+            entry_html = markdown2.markdown(title)
             return redirect("wiki", title=title)
     return render(request, "encyclopedia/create.html")
 
 def random_entry(request):
     random_entry = random.choice(util.list_entries())
-    entry_html = markdown.markdown(util.get_entry(random_entry))
+    entry_html = markdown2.markdown(util.get_entry(random_entry))
     return render(request, "encyclopedia/show_entry.html", {
             "entry": entry_html,
             "title": random_entry
