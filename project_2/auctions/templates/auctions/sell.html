@@ -1,5 +1,12 @@
 <form method="post" action=" {% url 'item' listing.id %}">
+  {% if bids_count > 0 %}
     <button type="submit" class="btn btn-primary" name="submit-sell">
       <i class="fas fa-dollar-sign"></i> Sell 
     </button>
-  </form>
+  {% else %}
+  <fieldset disabled>
+    <button type="submit" class="btn btn-primary" name="submit-sell" title="Can't sell without bids!">
+      <i class="fas fa-ban"></i> Sell 
+    </button>
+  </fieldset>
+  {% endif %}

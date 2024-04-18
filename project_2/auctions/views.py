@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import Max
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
@@ -23,6 +24,8 @@ class NewListingForm(forms.Form):
 class NewCommentForm(forms.Form):
     comment = forms.CharField(label="", widget=forms.Textarea(attrs={'placeholder': 'Enter your comment', 'class': 'form-control', 'rows': '3'}))
 
+class NewBidForm(forms.Form):
+    bid = forms.DecimalField(label="Enter bid:", widget=forms.TextInput(attrs={'placeholder': '00.00$'}))
 
 def index(request):
     return render(request, "auctions/index.html", {
@@ -116,6 +119,9 @@ def watchlist(request):
 def item(request, id):
     listing = get_object_or_404(Listing, pk=id)
     comments = Comment.objects.filter(listing=listing)
+    bids = Bid.objects.filter(listing=listing)
+    highest_bid = Bid.objects.filter(listing=listing).aggregate(Max('bid'))['bid__max']
+    bids_count = bids.count()  # Count the number of bids
 
     if request.method == "POST": 
         if 'submit-comment' in request.POST:
@@ -128,23 +134,43 @@ def item(request, id):
                     )
                 new_comment.save()
                 return redirect('item', id=id)
-            elif 'submit-bid' in request.POST:
-                pass
-            elif 'submit-sell' in request.POST:
-                pass
-            elif 'submit-watchlist' in request.POST:
-                pass
-
-        else:
-            comment_form = NewCommentForm()
+            
+        if 'submit-bid' in request.POST:
+            bid_form = NewBidForm(request.POST)
+            if bid_form.is_valid():
+                new_bid_amount = bid_form.cleaned_data["bid"]
+                if new_bid_amount > listing.base_price and (not highest_bid or new_bid_amount > highest_bid):
+                    new_bid = Bid(
+                        listing = listing,
+                        user = request.user,
+                        bid = bid_form.cleaned_data["bid"]
+                    )
+                    new_bid.save()
+                    return redirect("item", id=id)
+                else:
+                    error_message = "Bid amount is too low!"
+                return render(request, "auctions/error.html", {"error_message": error_message})
+                
+        elif 'submit-sell' in request.POST:
+            pass
+        elif 'submit-watchlist' in request.POST:
+            pass
+    
+    comment_form = NewCommentForm()
+    bid_form = NewBidForm()
 
     return render(request, "auctions/item.html", {
         "listing": listing,
         "comments": comments,
         "user": request.user,
-        "comment_form": NewCommentForm()
+        "comment_form": comment_form,
+        "bid_form": bid_form,
+        "highest_bid": highest_bid,
+        "bids": bids,
+        "bids_count": bids_count
 
     } )
+
 @login_required
 def myindex(request):
     active_listings = Listing.objects.filter(owner=request.user, is_active=True)
