@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
@@ -81,7 +82,7 @@ def register(request):
         return render(request, "auctions/register.html")
     
 
-
+@login_required
 def new(request):
     if request.method == "POST":
         form = NewListingForm(request.POST)
@@ -108,7 +109,7 @@ def new(request):
 def categories(request):
     return render(request, "auctions/categories.html")
 
-
+@login_required
 def watchlist(request):
     return render(request, "auctions/watchlist.html")
 
@@ -140,11 +141,11 @@ def item(request, id):
         "comment_form": NewCommentForm()
 
     } )
-
+@login_required
 def myindex(request):
-     active_listings = Listing.objects.filter(owner=request.user, is_active=True)
-     finished_listings = Listing.objects.filter(owner=request.user, is_active=False)
-     return render(request, "auctions/myindex.html", {
+    active_listings = Listing.objects.filter(owner=request.user, is_active=True)
+    finished_listings = Listing.objects.filter(owner=request.user, is_active=False)
+    return render(request, "auctions/myindex.html", {
         "active_listings": active_listings,
         "finished_listings": finished_listings
     })
