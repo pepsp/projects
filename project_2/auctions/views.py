@@ -146,6 +146,8 @@ def item(request, id):
                         bid = bid_form.cleaned_data["bid"]
                     )
                     new_bid.save()
+                    listing.current_bid = new_bid_amount
+                    listing.save()
                     return redirect("item", id=id)
                 else:
                     error_message = "Bid amount is too low!"
