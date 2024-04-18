@@ -115,7 +115,6 @@ def watchlist(request):
 
 def item(request, id):
     listing = get_object_or_404(Listing, pk=id)
-    user = request.user
     comments = Comment.objects.filter(listing=listing)
 
     if request.method == "POST": 
@@ -129,8 +128,13 @@ def item(request, id):
                     )
                 new_comment.save()
                 return redirect('item', id=id)
-            else:
-                comment_form = NewCommentForm()
+            elif 'submit-bid' in request.POST:
+                pass
+            elif 'submit-sell' in request.POST:
+                pass
+            elif 'submit-watchlist' in request.POST:
+                pass
+
         else:
             comment_form = NewCommentForm()
 

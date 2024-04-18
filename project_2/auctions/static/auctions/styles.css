@@ -1,5 +1,5 @@
 h2{
-    margin-bottom: 5px;
+    margin-bottom: 1px;
     text-align: center;
 }
 .published{
@@ -15,6 +15,10 @@ h2{
     margin-top: 15px;
     margin-bottom: 15px;
     text-align: center;
+}
+.item img{
+    width: 200px;
+    height: 200px;
 }
 
 
@@ -66,8 +70,8 @@ body {
     position: relative; /* Establish positioning context for absolutely positioned children */
 }
 
-.img-container img {
-    width: 100%; /* Ensure the image stretches to fill the container horizontally */
+.card-image img {
+    width: 200px; /* Ensure the image stretches to fill the container horizontally */
     height: 100%; /* Ensure the image stretches to fill the container vertically */
     object-fit: cover; /* Maintain aspect ratio while covering the container */
 }
@@ -97,7 +101,13 @@ body {
     text-align: center;
 }
 .author-row{
-    border: solid;
+    border-bottom: solid;
     border-width: 1px;
     border-color: black;
+}
+
+
+.add-watchlist{
+    max-width: 50px;
+    margin: 25px auto;
 }

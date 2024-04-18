@@ -4,7 +4,14 @@
 <h2>{{listing.title}}</h2>
 <p class="published"><small class="text-body-secondary"><em>Published by: </em><b>{{listing.owner}}</b></small></p>
 
-<div class="img-container mx-auto">
+<div class="item mx-auto">
+  {% if user.is_authenticated %}
+<form method="POST" action="{% url 'item' listing.id %}">
+  <div class="add-watchlist">
+    <button type="button" class="btn btn-primary btn-sm" name="submit-watchlist">Add</button>
+  </div>
+</form>
+  {% endif %}
 <img src="{{listing.image_url}}" alt="{{listing.title}}"/>
 </div>
 
