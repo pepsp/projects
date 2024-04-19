@@ -110,10 +110,6 @@ def new(request):
                 "form": NewListingForm()
                     })
 
-
-def categories(request):
-    return render(request, "auctions/categories.html")
-
 @login_required
 def watchlist(request):
     user = request.user
@@ -181,7 +177,6 @@ def item(request, id):
     comments = Comment.objects.filter(listing=listing)
     bids = Bid.objects.filter(listing=listing)
     highest_bid = Bid.objects.filter(listing=listing).aggregate(Max('bid'))['bid__max']
-    buyer = Bid.objects.filter(listing=listing).order_by('-bid').first()
     bids_count = bids.count()  # Count the number of bids
     is_watchlist = request.user in listing.watchlist.all()
 
@@ -215,16 +210,23 @@ def item(request, id):
 @login_required
 def myindex(request):
     active_listings = Listing.objects.filter(owner=request.user, is_active=True)
-    finished_listings = Listing.objects.filter(owner=request.user, is_active=False)
     return render(request, "auctions/myindex.html", {
-        "active_listings": active_listings,
-        "finished_listings": finished_listings
-    })
+        "active_listings": active_listings
+        })
+
 @login_required
 def sales(request):
     user = request.user
     listings = Listing.objects.filter(owner=user, is_active=False)
     return render(request, 'auctions/sales.html', {
+        'listings': listings,
+        'user': user
+    })
+
+def purchased(request):
+    user = request.user
+    listings = Listing.objects.filter(buyer=user, is_active=False)
+    return render(request, 'auctions/purchased.html', {
         'listings': listings,
         'user': user
     })

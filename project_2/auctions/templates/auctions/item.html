@@ -20,7 +20,7 @@
   <div class="add-watchlist">
   <form method="post" action="{% url 'item' listing.id %}">
   {% csrf_token %}
-    <button type="submit" class="btn btn-sm btn-outline-danger" name="remove-watchlist"><i class="far fa-star"></i>Unwatch</button>
+    <button type="submit" class="btn btn-sm btn-outline-danger" name="remove-watchlist"><i class="fas fa-ban"></i>Unwatch</button>
     </form>
   </div>
 

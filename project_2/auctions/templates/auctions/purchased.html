@@ -1,12 +1,12 @@
 {% extends "auctions/layout.html" %}
 
-{% block title %}My Sales{% endblock %}
+{% block title %}Purchased Items{% endblock %}
 {% block body %}
 
-    <h2>My sales</h2>
+    <h2>My items</h2>
   {% if user.is_authenticated %}
   {% for listing in listings %}
-    {% if listing.owner == user %}
+    {% if listing.buyer == user %}
       {% if not listing.is_active %}
     <div class="card-container">
       <div class="item mx-auto">
@@ -18,8 +18,8 @@
             <div class="col-md-8">
               <div class="card-body">
   
-                <h1>Sold!</h1>
-                <p><b>You sold {{listing.title}} for ${{listing.current_bid}} to {{listing.buyer}}</b></p>
+                <h1>Bought!</h1>
+                <p><b>You bought {{listing.title}} for ${{listing.current_bid}} from {{listing.owner}}</b></p>
               </div> <!-- Closing div for card-body -->
             </div> <!-- Closing div for col-md-8 -->
           </div> <!-- Closing div for row -->

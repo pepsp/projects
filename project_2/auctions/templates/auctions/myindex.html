@@ -1,25 +1,15 @@
 {% extends "auctions/layout.html" %}
+{% block title%}My Listings{% endblock %}
 
 {% block body %}
     <h2>My Listings</h2>
-    {% for listing in active_listings %}
+    {% for listing in active_listings%}
         <div class="card-container">
             {% include 'auctions/listing_card.html' %}
         </div>
     {% empty %}
         <div class="empty">
             <p>No active listings</p>
-        </div>
-    {% endfor %}
-
-    <h2>Finished Listings</h2>
-    {% for listing in finished_listings %}
-        <div class="card-container">
-            {% include 'auctions/listing_card.html' %}
-        </div>
-    {% empty %}
-        <div class="empty">
-            <p>No finished listings</p>
         </div>
     {% endfor %}
 {% endblock %}

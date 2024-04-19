@@ -11,5 +11,6 @@ urlpatterns = [
     path("sales", views.sales, name="sales"),
     path("watchlist", views.watchlist, name="watchlist"),
     path("item/<int:id>", views.item, name="item"),
-    path("myindex", views.myindex, name="myindex")
+    path("myindex", views.myindex, name="myindex"),
+    path("purchase", views.purchased, name="purchased")
 ]
