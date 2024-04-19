@@ -116,7 +116,60 @@ def categories(request):
 
 @login_required
 def watchlist(request):
-    return render(request, "auctions/watchlist.html")
+    user = request.user
+    listings = user.listing_watchlist.all()
+    return render(request, "auctions/watchlist.html", {
+        "listings": listings,
+        'user': user
+    })
+
+def handle_comment(request, listing_id):
+    if request.method == "POST":
+        comment_form = NewCommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = Comment(
+                listing_id=listing_id,
+                author=request.user,
+                comment=comment_form.cleaned_data["comment"]
+            )
+            new_comment.save()
+    return HttpResponseRedirect(reverse("item", args=[listing_id]))
+
+def handle_bid(request, listing_id):
+    if request.method == "POST":
+        bid_form = NewBidForm(request.POST)
+        if bid_form.is_valid():
+            new_bid_amount = bid_form.cleaned_data["bid"]
+            listing = get_object_or_404(Listing, pk=listing_id)
+            highest_bid = Bid.objects.filter(listing=listing).aggregate(Max('bid'))['bid__max']
+            if new_bid_amount >= listing.base_price and (not highest_bid or new_bid_amount > highest_bid):
+                new_bid = Bid(
+                    listing_id=listing_id,
+                    user=request.user,
+                    bid=new_bid_amount
+                )
+                new_bid.save()
+                listing.current_bid = new_bid_amount
+                listing.save()
+    return HttpResponseRedirect(reverse("item", args=[listing_id]))
+
+def handle_sell(request, listing_id):
+    if request.method == "POST":
+        listing = get_object_or_404(Listing, pk=listing_id)
+        if request.user == listing.owner:
+            listing.is_active = False
+            listing.buyer = Bid.objects.filter(listing=listing).order_by('-bid').first().user
+            listing.save()
+    return HttpResponseRedirect(reverse("item", args=[listing_id]))
+
+def handle_watchlist(request, listing_id):
+    if request.method == "POST":
+        listing = get_object_or_404(Listing, pk=listing_id)
+        if request.user != listing.owner:
+            if request.user not in listing.watchlist.all():
+                listing.watchlist.add(request.user)
+                listing.save()
+    return HttpResponseRedirect(reverse("item", args=[listing_id]))
 
 def item(request, id):
     listing = get_object_or_404(Listing, pk=id)
@@ -126,48 +179,16 @@ def item(request, id):
     buyer = Bid.objects.filter(listing=listing).order_by('-bid').first()
     bids_count = bids.count()  # Count the number of bids
 
-    if request.method == "POST": 
-
+    if request.method == "POST":
         if 'submit-comment' in request.POST:
-            comment_form = NewCommentForm(request.POST)
-            if comment_form.is_valid():
-                new_comment = Comment(
-                    listing = listing,
-                    author = request.user,
-                    comment = comment_form.cleaned_data["comment"]
-                    )
-                new_comment.save()
-                return redirect('item', id=id)
-            
-        if 'submit-bid' in request.POST:
-            bid_form = NewBidForm(request.POST)
-            if bid_form.is_valid():
-                new_bid_amount = bid_form.cleaned_data["bid"]
-                if new_bid_amount >= listing.base_price and (not highest_bid or new_bid_amount > highest_bid):
-                    new_bid = Bid(
-                        listing = listing,
-                        user = request.user,
-                        bid = bid_form.cleaned_data["bid"]
-                    )
-                    new_bid.save()
-                    listing.current_bid = new_bid_amount
-                    listing.save()
-                    return redirect("item", id=id)
-                else:
-                    error_message = "Bid amount is too low!"
-                return render(request, "auctions/error.html", {"error_message": error_message})
-        if 'submit-sell' in request.POST:
-            if request.user == listing.owner:
-                listing.is_active = False
-                listing.buyer = buyer.user
-                listing.save()
-            return redirect("item", id=id)
-        
-        if 'submit-watchlist' in request.POST:
-            if request.user != listing.owner:
-                listing.watchlist.add(request.user)
-        return redirect('item', id=id)
-    
+            return handle_comment(request, id)
+        elif 'submit-bid' in request.POST:
+            return handle_bid(request, id)
+        elif 'submit-sell' in request.POST:
+            return handle_sell(request, id)
+        elif 'submit-watchlist' in request.POST:
+            return handle_watchlist(request, id)
+
     comment_form = NewCommentForm()
     bid_form = NewBidForm()
 
@@ -180,8 +201,7 @@ def item(request, id):
         "highest_bid": highest_bid,
         "bids": bids,
         "bids_count": bids_count
-
-    } )
+    })
 
 @login_required
 def myindex(request):
@@ -191,10 +211,3 @@ def myindex(request):
         "active_listings": active_listings,
         "finished_listings": finished_listings
     })
-
-def end(request):
-    pass
-
-def bid(request):
-    pass
-

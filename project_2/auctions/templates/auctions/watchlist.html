@@ -5,7 +5,11 @@
 
     <h2>Watchlist</h2>
     {% for listing in listings %}
-    <h1>{{listing.watchlist}}</h1>
-
-   {% endfor %}
+        <h1>{{ listing.title }}</h1>
+        <ul>
+            {% for user in listing.watchlist.all %}
+                <li>{{ user.username }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
 {% endblock %}

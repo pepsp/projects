@@ -37,7 +37,8 @@
   {% else %}
 
     {% if bids_count > 0 %}
-    <p class="card-text"><b>Latest bid:</b> <p style="color:green;"><b>${{highest_bid|floatformat:2 }}</b></p></p>
+    <p class="card-text"><b>Bids: {{bids_count}}</b></p>
+    <p class="card-text"><b>Price:<p style="color:green;">${{highest_bid}}</b></p></p>
     {% else %}
     <p class="card-text"><b>Price:</b> <b><p style="color:blue;">${{listing.base_price}}</b></p></p>
     {% endif %}
