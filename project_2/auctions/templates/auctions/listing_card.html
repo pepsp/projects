@@ -9,9 +9,9 @@
         <p class="card-text description">{{listing.description}}</p>
 
         {% if listing.current_bid %}
-        <p class="card-text">Latest bid: <b>{{listing.current_bid}}</b></p>
+        <p class="card-text"><b>Latest bid:</b><b><p style="color:green;">${{listing.current_bid}}</b></p></p>
         {% else %}
-        <p class="card-text">Price: <b>{{listing.base_price}}</b></p>
+        <p class="card-text"><b>Price:</b><b><p style="color:blue;">${{listing.base_price}}</b></p></p>
         {% endif %}
 
         <p class="card-text"><small class="text-body-secondary"><em>Published by: </em><b>{{listing.owner}}</b></small></p>

@@ -1,4 +1,5 @@
 <form method="post" action=" {% url 'item' listing.id %}">
+  {% csrf_token %}
   {% if bids_count > 0 %}
     <button type="submit" class="btn btn-primary" name="submit-sell">
       <i class="fas fa-dollar-sign"></i> Sell 

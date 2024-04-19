@@ -27,6 +27,8 @@ class NewCommentForm(forms.Form):
 class NewBidForm(forms.Form):
     bid = forms.DecimalField(label="Enter bid:", widget=forms.TextInput(attrs={'placeholder': '00.00$'}))
 
+
+
 def index(request):
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.all
@@ -121,6 +123,7 @@ def item(request, id):
     comments = Comment.objects.filter(listing=listing)
     bids = Bid.objects.filter(listing=listing)
     highest_bid = Bid.objects.filter(listing=listing).aggregate(Max('bid'))['bid__max']
+    buyer = Bid.objects.filter(listing=listing).order_by('-bid').first()
     bids_count = bids.count()  # Count the number of bids
 
     if request.method == "POST": 
@@ -139,7 +142,7 @@ def item(request, id):
             bid_form = NewBidForm(request.POST)
             if bid_form.is_valid():
                 new_bid_amount = bid_form.cleaned_data["bid"]
-                if new_bid_amount > listing.base_price and (not highest_bid or new_bid_amount > highest_bid):
+                if new_bid_amount >= listing.base_price and (not highest_bid or new_bid_amount > highest_bid):
                     new_bid = Bid(
                         listing = listing,
                         user = request.user,
@@ -152,9 +155,14 @@ def item(request, id):
                 else:
                     error_message = "Bid amount is too low!"
                 return render(request, "auctions/error.html", {"error_message": error_message})
-                
-        elif 'submit-sell' in request.POST:
-            pass
+        if 'submit-sell' in request.POST:
+            if request.user == listing.owner:
+                listing.is_active = False
+                listing.buyer = buyer.user
+                listing.save()
+            return redirect("item", id=id)
+    
+
         elif 'submit-watchlist' in request.POST:
             pass
     

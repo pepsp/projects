@@ -6,30 +6,46 @@
 
 <div class="item mx-auto">
   {% if user.is_authenticated %}
+  {% if listing.is_active == True %}
 <form method="POST" action="{% url 'item' listing.id %}">
   <div class="add-watchlist">
     <button type="button" class="btn btn-primary btn-sm" name="submit-watchlist">Add</button>
   </div>
 </form>
   {% endif %}
+  {% endif %}
 <img src="{{listing.image_url}}" alt="{{listing.title}}"/>
 </div>
 
 <div class="item mx-auto">
     <p class="card-text description">{{listing.description}}</p>
-    {% if bids_count > 0 %}
-    <p class="card-text">Latest bid: <b>{{highest_bid}}</b></p>
+    {% if listing.is_active == False %}
+
+    <h1>Sold!</h1>
+    {% if listing.buyer == user %}
+    <p><b>You bought this for {{highest_bid}}!!</b></p>
     {% else %}
-    <p class="card-text">Price: <b>{{listing.base_price}}</b></p>
+    <p><b>{{listing.title}} was sold for {{highest_bid}} to {{listing.buyer}}</b></p>
     {% endif %}
   </div>
+  {% else %}
+
+    {% if bids_count > 0 %}
+    <p class="card-text"><b>Latest bid:</b> <p style="color:green;"><b>${{highest_bid|floatformat:2 }}</b></p></p>
+    {% else %}
+    <p class="card-text"><b>Price:</b> <b><p style="color:blue;">{{listing.base_price}}</b></p></p>
+    {% endif %}
+  </div>
+    {% endif %}
+
   {% if not user.is_authenticated %}
 <div style="margin: 25px;">
 <h2>You MUST <a href="{% url 'login' %}">Log In</a> or <a href="{% url 'register' %}">Register</a> before commenting or bidding</h2>
 </div>
 
-{% else %}
+{% endif %}
 
+{% if listing.is_active == True %}
   {% if listing.owner == user %}
   <div class="item">
   {% include 'auctions/sell.html' %}
@@ -42,7 +58,7 @@
 
   {% endif %}
 
-
+    
   <div class="comment-section">
 
       <div class="make-comment">
@@ -50,8 +66,20 @@
       </div>
 {% for comment in comments %}
   {% include 'auctions/comment.html' %}
-
 </div>
+
+{% empty %}
+<div class="item">
+<h1>No comments.</h1>
+</div>
+
+  {% endfor %}
+  {% endif %}
+
+  {%if listing.is_active == False %}
+  {% for comment in comments %}
+  {% include 'auctions/comment.html' %}
+
 {% empty %}
 <div class="item">
 <h1>No comments.</h1>

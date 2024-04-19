@@ -16,6 +16,7 @@ class Listing(models.Model):
     watchlist = models.ManyToManyField(User, blank=True, null=True, related_name="listing_watchlist")
     base_price = models.DecimalField(max_digits=10, decimal_places=2)
     current_bid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="bought_listings")
 
 
     def __str__(self):
