@@ -8,15 +8,23 @@
   {% if user.is_authenticated %}
   {% if not listing.owner == user %}
   {% if listing.is_active == True %}
-
-
+  {% if not is_watchlist %}
   <div class="add-watchlist">
     <form method="post" action="{% url 'item' listing.id %}">
       {% csrf_token %}
-    <button type="submit" class="btn btn-primary" name="submit-watchlist">Add</button>
+    <button type="submit" class="btn btn-sm btn-outline-secondary" name="add-watchlist"><i class="far fa-star"></i>Watch</button>
+    </form>
+  </div>
+  {% else %}
+
+  <div class="add-watchlist">
+  <form method="post" action="{% url 'item' listing.id %}">
+  {% csrf_token %}
+    <button type="submit" class="btn btn-sm btn-outline-danger" name="remove-watchlist"><i class="far fa-star"></i>Unwatch</button>
     </form>
   </div>
 
+  {% endif %}
   {% endif %}
   {% endif %}
   {% endif %}

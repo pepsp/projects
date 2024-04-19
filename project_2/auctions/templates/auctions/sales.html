@@ -1,0 +1,33 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Categories{% endblock %}
+{% block body %}
+
+    <h2>My sales</h2>
+  {% if user.is_authenticated %}
+  {% for listing in listings %}
+    {% if listing.owner == user %}
+      {% if not listing.is_active %}
+    <div class="card-container">
+      <div class="item mx-auto">
+        <a href="{% url 'item' listing.id %}">
+          <div class="row g-0">
+            <div class="col-md-4 card-image">
+              <img src="{{listing.image_url}}" class="img-fluid rounded-start" alt="{{listing.title}}">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+  
+                <h1>Sold!</h1>
+                <p><b>You sold {{listing.title}} for ${{listing.current_bid}} to {{listing.buyer}}</b></p>
+              </div> <!-- Closing div for card-body -->
+            </div> <!-- Closing div for col-md-8 -->
+          </div> <!-- Closing div for row -->
+        </a> <!-- Closing anchor tag -->
+        </div>
+    </div>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  {% endif %}
+{% endblock %}

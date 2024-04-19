@@ -162,13 +162,18 @@ def handle_sell(request, listing_id):
             listing.save()
     return HttpResponseRedirect(reverse("item", args=[listing_id]))
 
-def handle_watchlist(request, listing_id):
-    if request.method == "POST":
-        listing = get_object_or_404(Listing, pk=listing_id)
-        if request.user != listing.owner:
-            if request.user not in listing.watchlist.all():
-                listing.watchlist.add(request.user)
-                listing.save()
+def add_watchlist(request, listing_id):
+    listing = get_object_or_404(Listing, pk=listing_id)
+    if request.method == "POST" and request.user != listing.owner:
+        listing.watchlist.add(request.user)
+        listing.save()
+    return HttpResponseRedirect(reverse("item", args=[listing_id]))
+
+def remove_watchlist(request, listing_id):
+    listing = get_object_or_404(Listing, pk=listing_id)
+    if request.method == "POST" and request.user != listing.owner:
+        listing.watchlist.remove(request.user)
+        listing.save()
     return HttpResponseRedirect(reverse("item", args=[listing_id]))
 
 def item(request, id):
@@ -178,6 +183,7 @@ def item(request, id):
     highest_bid = Bid.objects.filter(listing=listing).aggregate(Max('bid'))['bid__max']
     buyer = Bid.objects.filter(listing=listing).order_by('-bid').first()
     bids_count = bids.count()  # Count the number of bids
+    is_watchlist = request.user in listing.watchlist.all()
 
     if request.method == "POST":
         if 'submit-comment' in request.POST:
@@ -186,8 +192,10 @@ def item(request, id):
             return handle_bid(request, id)
         elif 'submit-sell' in request.POST:
             return handle_sell(request, id)
-        elif 'submit-watchlist' in request.POST:
-            return handle_watchlist(request, id)
+        elif 'add-watchlist' in request.POST:
+            return add_watchlist(request, id)
+        elif 'remove-watchlist' in request.POST:
+            return remove_watchlist(request, id)
 
     comment_form = NewCommentForm()
     bid_form = NewBidForm()
@@ -200,7 +208,8 @@ def item(request, id):
         "bid_form": bid_form,
         "highest_bid": highest_bid,
         "bids": bids,
-        "bids_count": bids_count
+        "bids_count": bids_count,
+        "is_watchlist": is_watchlist
     })
 
 @login_required
@@ -210,4 +219,12 @@ def myindex(request):
     return render(request, "auctions/myindex.html", {
         "active_listings": active_listings,
         "finished_listings": finished_listings
+    })
+@login_required
+def sales(request):
+    user = request.user
+    listings = Listing.objects.filter(owner=user, is_active=False)
+    return render(request, 'auctions/sales.html', {
+        'listings': listings,
+        'user': user
     })

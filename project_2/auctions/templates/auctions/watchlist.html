@@ -5,11 +5,12 @@
 
     <h2>Watchlist</h2>
     {% for listing in listings %}
-        <h1>{{ listing.title }}</h1>
-        <ul>
-            {% for user in listing.watchlist.all %}
-                <li>{{ user.username }}</li>
-            {% endfor %}
-        </ul>
+    <div class="card-container">
+        {% include 'auctions/listing_card.html' %}
+    </div>
+{% empty %}
+    <div class="empty">
+        <p>No watchlisted listings</p>
+    </div>
     {% endfor %}
 {% endblock %}
