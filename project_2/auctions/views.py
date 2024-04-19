@@ -127,6 +127,7 @@ def item(request, id):
     bids_count = bids.count()  # Count the number of bids
 
     if request.method == "POST": 
+
         if 'submit-comment' in request.POST:
             comment_form = NewCommentForm(request.POST)
             if comment_form.is_valid():
@@ -161,10 +162,11 @@ def item(request, id):
                 listing.buyer = buyer.user
                 listing.save()
             return redirect("item", id=id)
-    
-
-        elif 'submit-watchlist' in request.POST:
-            pass
+        
+        if 'submit-watchlist' in request.POST:
+            if request.user != listing.owner:
+                listing.watchlist.add(request.user)
+        return redirect('item', id=id)
     
     comment_form = NewCommentForm()
     bid_form = NewBidForm()

@@ -4,7 +4,8 @@
 {% block body %}
 
     <h2>Watchlist</h2>
-    <p>TODO</p>
+    {% for listing in listings %}
+    <h1>{{listing.watchlist}}</h1>
 
-    
+   {% endfor %}
 {% endblock %}

@@ -14,7 +14,7 @@
     {% if listing.buyer == user %}
     <p><b>You bought this for {{highest_bid}}!!</b></p>
     {% else %}
-    <p><b>{{listing.title}} was sold for {{listing.current_bid}} to {{listing.buyer}}</b></p>
+    <p><b>{{listing.title}} was sold for ${{listing.current_bid}} to {{listing.buyer}}</b></p>
     {% endif %}
     {% endif %}
 

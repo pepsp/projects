@@ -6,12 +6,18 @@
 
 <div class="item mx-auto">
   {% if user.is_authenticated %}
+  {% if not listing.owner == user %}
   {% if listing.is_active == True %}
-<form method="POST" action="{% url 'item' listing.id %}">
+
+
   <div class="add-watchlist">
-    <button type="button" class="btn btn-primary btn-sm" name="submit-watchlist">Add</button>
+    <form method="post" action="{% url 'item' listing.id %}">
+      {% csrf_token %}
+    <button type="submit" class="btn btn-primary" name="submit-watchlist">Add</button>
+    </form>
   </div>
-</form>
+
+  {% endif %}
   {% endif %}
   {% endif %}
 <img src="{{listing.image_url}}" alt="{{listing.title}}"/>
@@ -25,7 +31,7 @@
     {% if listing.buyer == user %}
     <p><b>You bought this for {{highest_bid}}!!</b></p>
     {% else %}
-    <p><b>{{listing.title}} was sold for {{highest_bid}} to {{listing.buyer}}</b></p>
+    <p><b>{{listing.title}} was sold for ${{highest_bid}} to {{listing.buyer}}</b></p>
     {% endif %}
   </div>
   {% else %}
@@ -33,7 +39,7 @@
     {% if bids_count > 0 %}
     <p class="card-text"><b>Latest bid:</b> <p style="color:green;"><b>${{highest_bid|floatformat:2 }}</b></p></p>
     {% else %}
-    <p class="card-text"><b>Price:</b> <b><p style="color:blue;">{{listing.base_price}}</b></p></p>
+    <p class="card-text"><b>Price:</b> <b><p style="color:blue;">${{listing.base_price}}</b></p></p>
     {% endif %}
   </div>
     {% endif %}
