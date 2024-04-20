@@ -7,7 +7,6 @@
 <div class="item mx-auto">
   {% if user.is_authenticated %}
   {% if not listing.owner == user %}
-  {% if listing.is_active == True %}
   {% if not is_watchlist %}
   <div class="add-watchlist">
     <form method="post" action="{% url 'item' listing.id %}">
@@ -24,7 +23,6 @@
     </form>
   </div>
 
-  {% endif %}
   {% endif %}
   {% endif %}
   {% endif %}

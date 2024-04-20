@@ -30,8 +30,19 @@ class NewBidForm(forms.Form):
 
 
 def index(request):
+    listings = Listing.objects.all()
+    categories = Category.objects.all()
+    if request.method == "POST":
+        if 'category-select' in request.POST:
+            category_selected = request.POST["category-select"]
+            if category_selected:
+                listings = Listing.objects.filter(category__category=category_selected)
+            else:
+                listings = Listing.objects.all()
+
     return render(request, "auctions/index.html", {
-        "listings": Listing.objects.all
+        "listings": listings,
+        "categories": categories
     })
 
 
