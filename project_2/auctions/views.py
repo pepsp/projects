@@ -130,6 +130,7 @@ def watchlist(request):
         'user': user
     })
 
+@login_required
 def handle_comment(request, listing_id):
     if request.method == "POST":
         comment_form = NewCommentForm(request.POST)
@@ -142,6 +143,7 @@ def handle_comment(request, listing_id):
             new_comment.save()
     return HttpResponseRedirect(reverse("item", args=[listing_id]))
 
+@login_required
 def handle_bid(request, listing_id):
     if request.method == "POST":
         bid_form = NewBidForm(request.POST)
@@ -158,8 +160,14 @@ def handle_bid(request, listing_id):
                 new_bid.save()
                 listing.current_bid = new_bid_amount
                 listing.save()
+            else:
+                return render(request, "auctions/error.html", {
+                "error_message": "Bid must be greater than latest bid."
+            })
     return HttpResponseRedirect(reverse("item", args=[listing_id]))
+            
 
+@login_required
 def handle_sell(request, listing_id):
     if request.method == "POST":
         listing = get_object_or_404(Listing, pk=listing_id)
@@ -169,6 +177,7 @@ def handle_sell(request, listing_id):
             listing.save()
     return HttpResponseRedirect(reverse("item", args=[listing_id]))
 
+@login_required
 def add_watchlist(request, listing_id):
     listing = get_object_or_404(Listing, pk=listing_id)
     if request.method == "POST" and request.user != listing.owner:
@@ -176,6 +185,8 @@ def add_watchlist(request, listing_id):
         listing.save()
     return HttpResponseRedirect(reverse("item", args=[listing_id]))
 
+
+@login_required
 def remove_watchlist(request, listing_id):
     listing = get_object_or_404(Listing, pk=listing_id)
     if request.method == "POST" and request.user != listing.owner:
@@ -234,6 +245,7 @@ def sales(request):
         'user': user
     })
 
+@login_required
 def purchased(request):
     user = request.user
     listings = Listing.objects.filter(buyer=user, is_active=False)

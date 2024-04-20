@@ -1,3 +1,46 @@
+.cabeza a{
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: black;
+}
+.cabeza a:hover{
+    color: blue;
+}
+
+.cabeza h1{
+    font-size: 3.5em; /* Adjust the size as needed */
+    font-family: Verdana, Geneva, Tahoma, sans-serif; /* Example font */
+    color: black; /* Dark blue color */
+    text-align: center; /* Center the text */
+    text-transform: uppercase; /* Convert text to uppercase */
+    letter-spacing: 2px; /* Add spacing between letters */
+    margin-top: 0; /* Adjust the top margin for positioning */
+    text-shadow: 
+        -1px -1px 0 #fff,  
+         1px -1px 0 #fff,
+        -1px  1px 0 #fff,
+         1px  1px 0 #fff;
+}
+.signed{
+    text-align: right;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+body {
+    background: #BED7DC; /* Soft pastel green */
+}
+
+input {
+    background-color: #F1EEDC; /* Soft pastel orange */
+}
+
+.cabeza {
+    background: #F1EEDC; /* Soft pastel orange */
+    padding: 20px 30px;
+    border-radius: 20px;
+    border: solid;
+    border-color: #E5DDC5 ;
+}
+
 h2{
     margin-bottom: 1px;
     text-align: center;
@@ -112,3 +155,8 @@ body {
     margin: 25px auto;
 }
 
+.watch{
+    background-color: #f5f5f5;
+    max-width: 80px;
+    max-height: 80px;
+}

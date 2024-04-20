@@ -6,98 +6,84 @@
 
 <div class="item mx-auto">
   {% if user.is_authenticated %}
-  {% if not listing.owner == user %}
-  {% if not is_watchlist %}
-  <div class="add-watchlist">
-    <form method="post" action="{% url 'item' listing.id %}">
-      {% csrf_token %}
-    <button type="submit" class="btn btn-sm btn-outline-secondary" name="add-watchlist"><i class="far fa-star"></i>Watch</button>
-    </form>
-  </div>
-  {% else %}
-
-  <div class="add-watchlist">
-  <form method="post" action="{% url 'item' listing.id %}">
-  {% csrf_token %}
-    <button type="submit" class="btn btn-sm btn-outline-danger" name="remove-watchlist"><i class="fas fa-ban"></i>Unwatch</button>
-    </form>
-  </div>
-
+    {% if not listing.owner == user %}
+      {% if not is_watchlist %}
+      <div class="add-watchlist">
+        <form method="post" action="{% url 'item' listing.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-outline-secondary" name="add-watchlist"><i class="far fa-star"></i>Watch</button>
+        </form>
+      </div>
+      {% else %}
+      <div class="add-watchlist">
+        <form method="post" action="{% url 'item' listing.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-outline-danger" name="remove-watchlist"><i class="fas fa-ban"></i>Unwatch</button>
+        </form>
+      </div>
+      {% endif %}
+    {% endif %}
   {% endif %}
-  {% endif %}
-  {% endif %}
-<img src="{{listing.image_url}}" alt="{{listing.title}}"/>
+  <img src="{{listing.image_url}}" alt="{{listing.title}}"/>
 </div>
 
 <div class="item mx-auto">
-    <p class="card-text description">{{listing.description}}</p>
-    {% if listing.is_active == False %}
-
+  <p class="card-text description">{{listing.description}}</p>
+  {% if listing.is_active == False %}
     <h1>Sold!</h1>
     {% if listing.buyer == user %}
-    <p><b>You bought this for {{highest_bid}}!!</b></p>
+      <p><b>You bought this for ${{highest_bid}}!!</b></p>
     {% else %}
-    <p><b>{{listing.title}} was sold for ${{highest_bid}} to {{listing.buyer}}</b></p>
+      <p><b>{{listing.title}} was sold for ${{highest_bid}} to {{listing.buyer}}</b></p>
     {% endif %}
-  </div>
   {% else %}
-
     {% if bids_count > 0 %}
-    <p class="card-text"><b>Bids: {{bids_count}}</b></p>
-    <p class="card-text"><b>Price:<p style="color:green;">${{highest_bid}}</b></p></p>
+      <p class="card-text"><b>Bids: {{bids_count}}</b></p>
+      <p class="card-text"><b>Price:<p style="color:green;">${{highest_bid}}</b></p></p>
     {% else %}
-    <p class="card-text"><b>Price:</b> <b><p style="color:blue;">${{listing.base_price}}</b></p></p>
+      <p class="card-text"><b>Price:</b> <b><p style="color:blue;">${{listing.base_price}}</b></p></p>
     {% endif %}
-  </div>
-    {% endif %}
-
-  {% if not user.is_authenticated %}
-<div style="margin: 25px;">
-<h2>You MUST <a href="{% url 'login' %}">Log In</a> or <a href="{% url 'register' %}">Register</a> before commenting or bidding</h2>
+  {% endif %}
 </div>
 
+{% if not user.is_authenticated %}
+<div style="margin: 25px;">
+  <h2>You MUST <a href="{% url 'login' %}">Log In</a> or <a href="{% url 'register' %}">Register</a> before commenting or bidding</h2>
+</div>
 {% endif %}
 
-{% if listing.is_active == True %}
-  {% if listing.owner == user %}
-  <div class="item">
-  {% include 'auctions/sell.html' %}
-  </div>
-
-  {% else %}
-  <div class="item">
-   {% include 'auctions/bid.html' %}
-    </div>
-
-  {% endif %}
-
-    
-  <div class="comment-section">
-
+{% if user.is_authenticated %}
+  {% if listing.is_active == True %}
+    {% if listing.owner == user %}
+      <div class="item">
+        {% include 'auctions/sell.html' %}
+      </div>
+    {% else %}
+      <div class="item">
+        {% include 'auctions/bid.html' %}
+      </div>
+    {% endif %}
+    <div class="comment-section">
       <div class="make-comment">
         {% include 'auctions/add_comment.html' %}
       </div>
-{% for comment in comments %}
-  {% include 'auctions/comment.html' %}
-</div>
-
-{% empty %}
-<div class="item">
-<h1>No comments.</h1>
-</div>
-
-  {% endfor %}
+      {% for comment in comments %}
+        {% include 'auctions/comment.html' %}
+      {% endfor %}
+    </div>
   {% endif %}
-
-  {%if listing.is_active == False %}
-  {% for comment in comments %}
-  {% include 'auctions/comment.html' %}
-
-{% empty %}
-<div class="item">
-<h1>No comments.</h1>
-</div>
-
-{% endfor %}
 {% endif %}
+
+{% if listing.is_active == False %}
+  <div class="comment-section">
+    {% for comment in comments %}
+      {% include 'auctions/comment.html' %}
+    {% empty %}
+      <div class="item">
+        <h1>No comments.</h1>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
 {% endblock %}
