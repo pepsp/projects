@@ -62,12 +62,36 @@ function load_mailbox(mailbox) {
 .then(emails => {
     // Print emails
     console.log(emails);
+
     emails.forEach(element => {
     const div = document.createElement('div');
     div.classList.add('email-item');
-    const h1 = document.createElement('h1');
-    h1.textContent = element.id;
-    div.appendChild(h1);
+
+    const left = document.createElement('div');
+    left.classList.add('left');
+
+    const right = document.createElement('div');
+    right.classList.add('right');
+
+
+    const subject = document.createElement('p');
+    subject.textContent = element.subject;
+    subject.setAttribute('id', 'subject')
+
+    const sender = document.createElement('p');
+    sender.textContent = element.sender;
+    sender.setAttribute('id', 'sender');
+
+    const date = document.createElement('p')
+    date.textContent = element.timestamp;
+    date.setAttribute('id', 'date');
+
+    left.appendChild(sender);
+    left.appendChild(subject);
+    right.appendChild(date);
+    div.appendChild(left);
+    div.appendChild(right);
+
     document.querySelector('#emails-view').appendChild(div)
    });
     // ... do something else with emails ...

@@ -2,9 +2,31 @@ textarea {
     min-height: 400px;
 }
 
-.email-item {
-    border: 1px solid black;
-    margin-bottom: 10px;
+  .email-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
     padding: 10px;
-    /* Add more styles as needed */
+  }
+
+  .email-item .left {
+    display: flex;
+    flex-direction: center;
+  }
+
+  .email-item .left p{
+    margin-right: 10px;
+
+  }
+  .email-item .right {
+    margin-left: auto;
+  }
+
+  #sender{
+    font-weight: bold;
+  }
+
+  #date{
+    color: gray;
   }
