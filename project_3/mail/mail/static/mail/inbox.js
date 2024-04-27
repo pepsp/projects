@@ -15,6 +15,7 @@ function compose_email() {
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
+  document.querySelector('#single-email').style.display = 'none';
 
   // Clear out composition fields
   document.querySelector('#compose-recipients').value = '';
@@ -24,6 +25,7 @@ function compose_email() {
 
 function send_email(event){
   event.preventDefault();
+
   const recipients = document.querySelector('#compose-recipients').value;
   const subject = document.querySelector('#compose-subject').value
   const body = document.querySelector('#compose-body').value;
@@ -48,23 +50,43 @@ function send_email(event){
   
   }
 
+  function single_email(email){
+    document.querySelector('#emails-view').style.display = 'none';
+    document.querySelector('#compose-view').style.display = 'none';
+    document.querySelector('#single-email').style.display = 'block';
+
+    document.querySelector('#email-to').textContent = email.recipients;
+    document.querySelector('#email-from').textContent = email.sender;
+    document.querySelector('#email-subject').textContent = email.subject;
+    document.querySelector('#email-timestamp').textContent = email.timestamp;
+    document.querySelector('#single-body').textContent = email.body;
+  }
+
 function load_mailbox(mailbox) {
   
   // Show the mailbox and hide other views
+  document.querySelector('#single-email').style.display = 'none';
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
-  fetch('/emails/inbox')
+  fetch(`/emails/${mailbox}`)
 .then(response => response.json())
 .then(emails => {
     // Print emails
     console.log(emails);
 
-    emails.forEach(element => {
+    emails.forEach(email => {
+      
     const div = document.createElement('div');
+
+    div.addEventListener('click', function() {
+      console.log('This element has been clicked!', email.id)
+      single_email(email);
+    });
+
     div.classList.add('email-item');
 
     const left = document.createElement('div');
@@ -75,15 +97,15 @@ function load_mailbox(mailbox) {
 
 
     const subject = document.createElement('p');
-    subject.textContent = element.subject;
+    subject.textContent = email.subject;
     subject.setAttribute('id', 'subject')
 
     const sender = document.createElement('p');
-    sender.textContent = element.sender;
+    sender.textContent = email.sender;
     sender.setAttribute('id', 'sender');
 
     const date = document.createElement('p')
-    date.textContent = element.timestamp;
+    date.textContent = email.timestamp;
     date.setAttribute('id', 'date');
 
     left.appendChild(sender);
@@ -94,7 +116,7 @@ function load_mailbox(mailbox) {
 
     document.querySelector('#emails-view').appendChild(div)
    });
-    // ... do something else with emails ...
+
 });
 
 

@@ -10,6 +10,11 @@ textarea {
     padding: 10px;
   }
 
+  .email-item:hover{
+    background-color: #F0F0F0;
+    cursor: pointer;
+  }
+
   .email-item .left {
     display: flex;
     flex-direction: center;
@@ -30,3 +35,20 @@ textarea {
   #date{
     color: gray;
   }
+
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px; /* Optional: Add margin between each header */
+}
+
+.header h4 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0px 5px;
+}
+
+.header p{
+  font-size: 18px;
+  margin: 0;
+}
