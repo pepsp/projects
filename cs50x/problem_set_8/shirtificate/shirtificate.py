@@ -1,0 +1,11 @@
+from fpdf import FPDF
+name = input("Enter your name to win a shirt!: ")
+pdf = FPDF(orientation = "portrait", format = "A4" )
+pdf.add_page()
+pdf.set_font("Helvetica", "B", 45)
+pdf.cell(0, 60, "CS50 SHIRTIFICATE", align = "C")
+pdf.image("shirtificate.png", 0, 60)
+pdf.set_font_size(30)
+pdf.set_text_color(255, 255, 255)
+pdf.text(x = 45, y = 150, text =f"{name} took CS50")
+pdf.output("shirtificate.pdf")

@@ -1,0 +1,58 @@
+html, body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* You can adjust this value based on your layout needs */
+    text-align: center;
+    background-color: #5F85D1;
+  }
+
+  .container {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+    header {
+        background-color: #5F85D1; /* Example background color */
+        color: #fff; /* Example text color */
+        padding: 10px; /* Adjust padding as needed */
+        z-index: 1000; /* Ensure it's on top of other content */
+        font-size: 36px;
+        font-weight: bold;
+        font-family: Tahoma;
+        text-align: center;
+      }
+
+    a {
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+    a:hover {
+      color: red;
+      text-decoration: none;
+      cursor: pointer;
+    }
+h1{
+  padding: 10px;
+}
+
+.title{
+  display: inline;
+  text-align: center;
+}
+
+#back {
+  text-decoration: none;
+  color: black;
+  font-size: 15px;
+  display: inline-flex;
+  text-align: center;
+}
+#back:hover{
+  color: red;
+  text-decoration: none;
+  cursor: pointer;
+}

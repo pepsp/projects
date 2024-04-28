@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script>
+            // TODO: Add code to check answers to questions
+            document.addEventListener('DOMContentLoaded', function() {
+                let correct = document.querySelector('.correct');
+                correct.addEventListener('click', function(){
+                    correct.style.backgroundColor ='green';
+                    document.querySelector('#feedback1').innerHTML = 'Correct!';
+                });
+
+                let incorrect = document.querySelectorAll('.incorrect');
+                incorrect.forEach(function(buttons) {
+                    buttons.addEventListener('click', function() {
+                    buttons.style.backgroundColor='red';
+                    document.querySelector('#feedback1').innerHTML = 'Incorrect!';
+                });
+            });
+
+                document.querySelector('#check').addEventListener('click', function(){
+                    let input = document.querySelector('input');
+                    if (input.value.trim().toLowerCase() == 'rush'){
+                        input.style.backgroundColor='green';
+                    }else{
+                        input.style.backgroundColor='red';
+                    }
+                });
+            });
+
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Multiple Choice Question </h2>
+                <hr>
+                <!-- TODO: Add multiple choice question here -->
+                <h3>Who's Megaman's father?</h3>
+                <button class='incorrect'>Albert W. Wily</button>
+                <button class='incorrect'>Phoenix Wright</button>
+                <button class='correct'>Thomas Light</button>
+                <button class='incorrect'>Light Yagami</button>
+                <p id="feedback1"></p>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <!-- TODO: Add free response question here -->
+                <h3>Megaman's best friend:</h3>
+                <input id='part2' type='text' placeholder="Hint: He's red" class='part2'>
+                <button type='submit' id='check'>SUBMIT</button>
+            </div>
+        </div>
+    </body>
+</html>

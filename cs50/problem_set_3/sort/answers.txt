@@ -1,0 +1,21 @@
+sort1 uses:
+Bubble sort
+
+How do you know?:
+bigO is 5.35 seconds. O(n^2)
+Ω is 0.67 seconds. Ω(n)
+
+sort2 uses:
+Merge sort
+
+How do you know?:
+bigO is 0.58 seconds O(nlog(n))
+Ω is 0.65 seconds   Ω(nlog(n))
+
+
+sort3 uses:
+Selection sort
+
+How do you know?:
+BigO is 2.69 seconds O(n^2)
+Ω is 2.46 seconds Ω(n^2)

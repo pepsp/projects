@@ -1,0 +1,4 @@
+cowsay
+pyfiglet
+random
+sys

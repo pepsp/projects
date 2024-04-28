@@ -1,0 +1,6 @@
+1. I would probably calculate the average data of all the songs the user listened through the year. Energy, valence and danceability.
+    SELECT AVG(danceability),AVG(energy),AVG(valence)
+   ...> FROM songs;
+
+2. I think you could also take in account the genres the user listened throught the year. What songs the listened the most,
+and for how long he listened music each day
