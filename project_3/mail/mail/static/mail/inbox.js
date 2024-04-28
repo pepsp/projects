@@ -83,7 +83,6 @@ function load_mailbox(mailbox) {
     const div = document.createElement('div');
 
     div.addEventListener('click', function() {
-      console.log('This element has been clicked!', email.id)
       single_email(email);
     });
 
