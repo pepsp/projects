@@ -18,7 +18,7 @@ function compose_email(reply = null) {
   document.querySelector('#single-email').style.display = 'none';
 
   // Clear out composition fields
-  
+
   if(reply){
     document.querySelector('#compose-recipients').value = reply.sender;
     document.querySelector('#compose-subject').value = `Re: ${reply.subject}`;
@@ -72,6 +72,7 @@ function send_email(event){
     
     document.querySelector('#reply').addEventListener('click', function() {
       compose_email(email);
+      
     });
   }
 
@@ -95,6 +96,14 @@ function load_mailbox(mailbox) {
 
     div.addEventListener('click', function() {
       single_email(email);
+
+      fetch(`/emails/${email.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            read: true
+        })
+        
+      })
     });
 
     // HANDLE READ EMAILS LOOK
