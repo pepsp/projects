@@ -55,10 +55,14 @@ textarea {
 }
 
 .read{
-  background-color: rgba(128, 128, 128, 0.185);
+  background-color: rgba(128, 128, 128, 0.105);
 }
 
 .unread{
   background-color: white;
 
+}
+
+.boton{
+  margin: auto 10px;
 }
