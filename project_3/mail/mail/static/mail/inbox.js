@@ -98,7 +98,13 @@ function load_mailbox(mailbox) {
       single_email(email);
     });
 
-    div.classList.add('email-item');
+    // HANDLE READ EMAILS LOOK
+    if (email.read){
+      div.classList.add('email-item', 'read');
+    }else{
+      div.classList.add('email-item', 'unread')
+    }
+    ///
 
     const left = document.createElement('div');
     left.classList.add('left');
