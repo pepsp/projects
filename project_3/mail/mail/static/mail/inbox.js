@@ -4,13 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));
   document.querySelector('#sent').addEventListener('click', () => load_mailbox('sent'));
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
-  document.querySelector('#compose').addEventListener('click', compose_email);
+  document.querySelector('#compose').addEventListener('click', () => compose_email(null));
   document.querySelector('#compose-form').addEventListener('submit', send_email);
   // By default, load the inbox
   load_mailbox('inbox');
 });
 
-function compose_email() {
+function compose_email(reply = null) {
 
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
@@ -18,9 +18,19 @@ function compose_email() {
   document.querySelector('#single-email').style.display = 'none';
 
   // Clear out composition fields
+ 
+
+  if(reply){
+    document.querySelector('#compose-recipients').value = reply.sender;
+    document.querySelector('#compose-subject').value = `Re: ${reply.subject}`;
+    document.querySelector('#compose-body').value = `\n----------------------------\n${reply.body}\n`;
+    document.querySelector('#compose-body').focus();
+    document.querySelector('#compose-body').setSelectionRange(0,0);
+  }else{
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
+  }
 }
 
 function send_email(event){
@@ -44,7 +54,7 @@ function send_email(event){
       alert(result.error)
     }else{
       alert(result.message);
-      load_mailbox('inbox');
+      load_mailbox('sent');
     }
   });
   
@@ -60,6 +70,10 @@ function send_email(event){
     document.querySelector('#email-subject').textContent = email.subject;
     document.querySelector('#email-timestamp').textContent = email.timestamp;
     document.querySelector('#single-body').textContent = email.body;
+    
+    document.querySelector('#reply').addEventListener('click', function() {
+      compose_email(email);
+    });
   }
 
 function load_mailbox(mailbox) {
@@ -75,8 +89,6 @@ function load_mailbox(mailbox) {
   fetch(`/emails/${mailbox}`)
 .then(response => response.json())
 .then(emails => {
-    // Print emails
-    console.log(emails);
 
     emails.forEach(email => {
       

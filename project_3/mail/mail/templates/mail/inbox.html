@@ -30,7 +30,7 @@
             <h4>Timestamp: </h4><p id="email-timestamp"></p>
         </div>
         
-        <button class="btn btn-outline-primary">Reply</button>
+        <button class="btn btn-outline-primary" id="reply">Reply</button>
         <hr>
         <div id="single-body">
         </div>
@@ -43,7 +43,7 @@
                 From: <input disabled class="form-control" value="{{ request.user.email }}">
             </div>
             <div class="form-group">
-                To: <input id="compose-recipients" class="form-control">
+                To: <input id="compose-recipients" class="form-control" placeholder="To">
             </div>
             <div class="form-group">
                 <input class="form-control" id="compose-subject" placeholder="Subject">
