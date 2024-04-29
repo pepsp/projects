@@ -18,8 +18,7 @@ function compose_email(reply = null) {
   document.querySelector('#single-email').style.display = 'none';
 
   // Clear out composition fields
- 
-
+  
   if(reply){
     document.querySelector('#compose-recipients').value = reply.sender;
     document.querySelector('#compose-subject').value = `Re: ${reply.subject}`;
