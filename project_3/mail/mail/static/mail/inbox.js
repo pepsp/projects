@@ -21,14 +21,22 @@ function compose_email(reply = null) {
 
   if(reply){
     document.querySelector('#compose-recipients').value = reply.sender;
-    document.querySelector('#compose-subject').value = `Re: ${reply.subject}`;
-    document.querySelector('#compose-body').value = `\n----------------------------\n${reply.body}\n`;
+    let reSubject = reply.subject;
+    if(reSubject.split(' ', 1)[0] != 'Re:'){
+      reSubject = "Re: " + reply.subject;
+    }
+
+    let replyBody = `\n<br>----------------------------<br>\nOn ${reply.timestamp}, ${reply.sender} said: \n${reply.body}\n<hr>`;
+    
+    document.querySelector('#compose-subject').value = reSubject;
+    document.querySelector('#compose-body').value = replyBody;
     document.querySelector('#compose-body').focus();
     document.querySelector('#compose-body').setSelectionRange(0,0);
   }else{
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
+  document.querySelector("#compose-body").value = "";
   }
 }
 
