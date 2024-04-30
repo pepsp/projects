@@ -108,10 +108,10 @@ function send_email(event){
       const archive = document.createElement("button");
       if(email.archived == false){
         archive.innerHTML = 'Archive';
-        archive.classList = "btn btn-outline-primary boton"
+        archive.classList = "btn btn-sm btn-outline-primary boton"
       }else{
         archive.innerHTML='Unarchive';
-        archive.classList="btn btn-outline-danger";
+        archive.classList="btn btn-sm btn-outline-danger";
       }
 
       archive.addEventListener('click', function () {
@@ -131,7 +131,7 @@ function send_email(event){
     const reply = document.createElement("button");
     
     reply.innerHTML="Reply";
-    reply.classList="btn btn-outline-primary boton";
+    reply.classList="btn btn-sm btn-outline-primary boton";
    
    reply.addEventListener('click', function (){
     compose_email(email);
