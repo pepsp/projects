@@ -26,7 +26,7 @@ function compose_email(reply = null) {
       reSubject = "Re: " + reply.subject;
     }
 
-    let replyBody = `\n<br>----------------------------<br>\nOn ${reply.timestamp}, ${reply.sender} said: \n${reply.body}\n<hr>`;
+    let replyBody = `\n----------------------------\nOn ${reply.timestamp}, ${reply.sender} said: \n${reply.body}\n`;
     
     document.querySelector('#compose-subject').value = reSubject;
     document.querySelector('#compose-body').value = replyBody;
@@ -75,6 +75,9 @@ function send_email(event){
     document.querySelector('#compose-view').style.display = 'none';
     document.querySelector('#single-email').style.display = 'block';
     console.log(email)
+    let showBody = email.body;
+    showBody = showBody.replace(/\n/g, '<br>\n');
+
     document.querySelector("#single-email").innerHTML = `
     <div class="header">
     <h4> From: </h4><p id="email-from">${email.sender}</p>
@@ -96,7 +99,7 @@ function send_email(event){
 
       <hr>
     <div id="single-body">
-      ${email.body}
+      ${showBody}
     </div>`
 
     const buttonDiv = document.querySelector("#button-div");
