@@ -3,12 +3,17 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.core.paginator import Paginator
 
-from .models import User
+from .models import User, Post, Comment
 
 
 def index(request):
-    return render(request, "network/index.html")
+    posts = Post.objects.all()
+    p = Paginator(posts, 10)
+    return render(request, "network/index.html", {
+        "posts": posts
+    })
 
 
 def login_view(request):

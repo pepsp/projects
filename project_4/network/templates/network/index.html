@@ -2,15 +2,34 @@
 
 {% block body %}
 
-    <div id="all-posts">
+    {% if user.is_authenticated %}
+    <div id="make-post" class="contenedor">
+        <button id="compose-post" class="btn btn-outline-primary">New Post</button>
+
+        <div id="show-post">
+            <form action="{% url 'index' %}" method="post">
+                <textarea id="comment" rows="4" cols="50" required focus></textarea>
+                <br>
+                <div class="contenedor">
+                    <button type="submit" class="btn btn-outline-primary">Post Comment</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <div id="make-comment">
-        <form action="{% url 'index' %}" method="post">
-            <textarea>
-            </textarea>
-            <input type="submit" value="Post Comment">
-        </form>
+    {% endif %}
+
+    <div id="all-posts" class="contenedor">
+        {% for post in posts %}
+        <div class="comment">
+            <div class="author">@{{ post.user }}</div>
+            <div class="message">{{ post.content }}</div>
+            <div class="timestamp">{{post.date}}</div>
+          </div>
+        {% endfor %}
     </div>
 
+  
 {% endblock %}
+
+
