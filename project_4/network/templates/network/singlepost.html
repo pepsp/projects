@@ -1,0 +1,21 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+<div class="post">
+    <div class="author">@{{ post.user }}</div>
+    <div class="content">
+        {{ post.content }}
+    </div>
+    <div class="timestamp">{{ post.date }}</div>
+
+    <div class="actions">
+        <a href="#">Like</a>
+        <a href="#">Comment</a>
+    </div>
+</div>
+
+  
+{% endblock %}
+
+

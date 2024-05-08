@@ -4,37 +4,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px; 
+    margin: 20px;
 }
+
+
 #compose-post{
     margin: 10px;
 }
 #show-post{
     display: none;
 }
-
-.comment {
-    background-color: #f9f9f9;
-    min-width: 600px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 10px;
-  }
-
-  .comment:hover{
-    cursor: pointer;
-    box-shadow: 0 0 1px rgba(27, 23, 46, 0.436);
-  }
   
-  .comment .author {
+  .author {
     font-weight: bold;
-    color: #333;
+    color: #1e6782;
+   
+
   }
   
-  .comment .timestamp {
+  .timestamp {
     font-size: 0.8em;
     color: #888;
+    margin-bottom: 5px;
   }
   
   .comment .message {
@@ -47,3 +38,37 @@
     border-bottom: solid #dddddd56 1px;
     padding: 30px;
   }
+  .no-link:hover{
+    text-decoration: none;
+  }
+
+  .post {
+    max-width: 1000px;
+    min-width: 600px;
+    background-color: #fff;
+    border-radius: 20px;
+    border: solid 1px #dddddd56;
+    padding: 20px;
+    margin: 20px auto;
+}
+
+.post .content {
+    margin-bottom: 20px;
+}
+
+.post .actions {
+    display: flex;
+    justify-content: space-between;
+    border-top: solid #dddddd98 1px;
+}
+
+.post .actions a {
+    text-decoration: none;
+    color: #1da1f2;
+    margin-top: 3px;
+}
+
+.display:hover{
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
