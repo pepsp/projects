@@ -5,10 +5,10 @@
     {% if user.is_authenticated %}
     <div id="make-post" class="contenedor">
         <button id="compose-post" class="btn btn-outline-primary">New Post</button>
-
         <div id="show-post">
             <form action="{% url 'index' %}" method="post">
-                <textarea id="comment" rows="4" cols="50" required focus></textarea>
+                {% csrf_token %}  <!-- CSRF token -->
+                <textarea name="post-text" rows="4" cols="50" required focus></textarea>
                 <br>
                 <div class="contenedor">
                     <button type="submit" class="btn btn-outline-primary">Post Comment</button>
@@ -28,6 +28,9 @@
           </div>
         {% endfor %}
     </div>
+
+
+    {% include 'network/paginator.html' %}
 
   
 {% endblock %}

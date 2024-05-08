@@ -24,7 +24,7 @@
 
   .comment:hover{
     cursor: pointer;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 1px rgba(27, 23, 46, 0.436);
   }
   
   .comment .author {
@@ -40,4 +40,10 @@
   .comment .message {
     margin-top: 5px;
     color: black;
+  }
+
+  #all-posts{
+    border-top: solid #dddddd56 1px;
+    border-bottom: solid #dddddd56 1px;
+    padding: 30px;
   }

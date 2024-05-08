@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.core.paginator import Paginator
 
@@ -9,10 +9,28 @@ from .models import User, Post, Comment
 
 
 def index(request):
-    posts = Post.objects.all()
+    posts = Post.objects.order_by('-date')
     p = Paginator(posts, 10)
+    page_num = request.GET.get('page') 
+    page_obj = p.get_page(page_num)
+
+    if request.method == "POST":
+        post_form = request.POST.get("post-text")
+
+        if post_form:
+            new_post = Post(
+                user=request.user,
+                content = post_form
+            )
+            new_post.save()
+            return redirect('index')
+
+
+
+
     return render(request, "network/index.html", {
-        "posts": posts
+        "posts": page_obj,
+        "page_obj": page_obj
     })
 
 
