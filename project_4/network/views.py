@@ -10,11 +10,37 @@ from django.shortcuts import get_object_or_404
 from .models import User, Post, Comment
 
 
+def comment(request, id):
+    comment_form = request.POST.get("post-comment")
+    post = Post.objects.get(pk=id)
+    if comment_form:
+        new_comment = Comment(
+            author = request.user,
+            content = comment_form,
+            post = post
+        )
+        new_comment.save()
+        return redirect(reverse('post', kwargs={'id': id}))
+
+def profile(request, username):
+    user = User.objects.get(username=username)
+    posts = Post.objects.filter(user=user).order_by('-date')
+    page_obj = paginator(request, posts, 10)
+    return render(request, "network/profile.html", {
+        "posts": page_obj,
+        "username": username,
+        "page_obj": page_obj
+    })
+
+def paginator(request, posts, number):
+    p = Paginator(posts, number)
+    page_num = request.GET.get('page')
+    page_obj = p.get_page(page_num)
+    return page_obj
+
 def index(request):
     posts = Post.objects.order_by('-date')
-    p = Paginator(posts, 10)
-    page_num = request.GET.get('page') 
-    page_obj = p.get_page(page_num)
+    page_obj = paginator(request, posts, 10)
 
     if request.method == "POST":
         post_form = request.POST.get("post-text")
@@ -34,8 +60,14 @@ def index(request):
 
 def post(request, id):
     post = get_object_or_404(Post, id=id)
+    comments = Comment.objects.filter(post=post)
+
+    if request.method == "POST":
+        if 'post-comment' in request.POST:
+            return comment(request, id=id)
     return render(request, "network/singlepost.html", {
-        "post": post
+        "post": post,
+        "comments": comments
     })
 
 

@@ -1,0 +1,26 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+<div class="contenedor">
+    <h1>{{username}}</h1>    
+</div>
+
+<div id="all-posts" class="contenedor">
+    {% for post in posts %}
+    <a href="{% url 'post' post.id %}" class="no-link">
+        <div class="comment post display">
+            <div class="author">@{{ post.user }}</div>
+            <div class="message">{{ post.content }}</div>
+            <div class="timestamp">{{ post.date }}</div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+{% include 'network/paginator.html' %}
+
+  
+{% endblock %}
+
+

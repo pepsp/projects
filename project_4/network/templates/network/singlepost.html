@@ -1,7 +1,8 @@
 {% extends "network/layout.html" %}
+{% load static %}
 
 {% block body %}
-
+<script src="{% static 'network/singlepost.js' %}"></script>
 <div class="post">
     <div class="author">@{{ post.user }}</div>
     <div class="content">
@@ -9,11 +10,40 @@
     </div>
     <div class="timestamp">{{ post.date }}</div>
 
+    {% if user.is_authenticated %}
     <div class="actions">
-        <a href="#">Like</a>
-        <a href="#">Comment</a>
+        <button class="like-button">
+            <i class="fa fa-heart"></i> Like
+        </button>
+        <button class="comment-button" id="open-comment">
+            <i class="fa fa-comment"></i> Comment</button>
     </div>
+
+    <div id="make-comment" class="contenedor">
+        <div id="show-comment">
+            <form action="{% url 'post' post.id %}" method="post">
+                {% csrf_token %}  <!-- CSRF token -->
+                <textarea id='post-comment' name="post-comment" rows="4" cols="50" required focus></textarea>
+                <br>
+                <div class="contenedor">
+                    <button type="submit" class="btn btn-outline-primary btn-sm">Comment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
 </div>
+
+{% for comment in comments %}
+<div>
+    <div>
+        <p>{{comment.author}} says:</p>
+        </div>
+        <div>
+            <p><span>{{comment.content}}</span></p>
+        </div>
+</div>
+{% endfor %}
 
   
 {% endblock %}
