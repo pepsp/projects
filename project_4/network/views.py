@@ -10,6 +10,23 @@ from django.http import JsonResponse
 
 from .models import User, Post, Comment, Like, Follow
 
+def unfollow(request, username):
+    follower = User.objects.get(username=username)
+    following = request.user
+    follow = Follow.objects.filter(follower=follower, following=following)
+    follow.delete()
+    return JsonResponse({"message": "User succesfully unfollowed!"})
+
+def follow(request, username):
+    follower = User.objects.get(username=username)
+    following = request.user
+    new_follow = Follow(
+        follower=follower,
+        following=following
+    )
+    new_follow.save()
+    return JsonResponse({"message": "User succesfully followed!"})
+
 
 def unlike(request, post_id):
     post = Post.objects.get(pk=post_id)
@@ -42,17 +59,24 @@ def profile(request, username):
     posts = Post.objects.filter(user=user).order_by('-date')
     page_obj = paginator(request, posts, 10)
 
+
     if request.user.is_authenticated:
+        login_user = request.user
         liked = set(Like.objects.filter(user=request.user).values_list('post_id', flat=True))
+        followed= set(User.objects.filter(followers__following=request.user))
+        print(followed)
     else:
         liked = []
+        followed = []
 
 
     return render(request, "network/profile.html", {
         "posts": page_obj,
         "username": username,
         "page_obj": page_obj,
-        "liked": liked
+        "liked": liked,
+        "followed": followed,
+        "login_user": login_user
     })
 
 def paginator(request, posts, number):

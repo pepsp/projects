@@ -8,7 +8,19 @@
 
 
 <div class="contenedor">
-    <h1>{{username}}</h1>    
+    <h1>{{username}}</h1>
+    
+    {% if username != user.username %}
+    {% if login_user in followed %}
+    <div>
+        <button class="follow-button unfollow" id="follow-{{username}}" data-username="{{username}}" data-followed="true">Unfollow</button>
+    </div>
+    {% else %}
+    <div>
+        <button class="follow-button" id="follow-{{username}}" data-username="{{username}}" data-followed="false">Follow</button>
+    </div>
+    {% endif %}
+    {% endif %}
 </div>
 
 <div id="all-posts" class="contenedor">
