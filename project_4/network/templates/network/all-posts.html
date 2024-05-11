@@ -1,16 +1,3 @@
-{% extends "network/layout.html" %}
-{% load static %}
-
-
-{% block body %}
-
-<script src="{% static 'network/profile.js' %}"></script>
-
-
-<div class="contenedor">
-    <h1>{{username}}</h1>    
-</div>
-
 <div id="all-posts" class="contenedor">
     {% for post in posts %}
     <a href="{% url 'post' post.id %}" class="no-link">
@@ -19,7 +6,7 @@
             <div class="message">{{ post.content }}</div>
             <div class="timestamp">{{ post.date }}</div>
         </a>
-             <div class="actions">
+            <div class="actions">
                 <button class="like-button" id="boton-{{post.id}}" data-post="{{post.id}}" data-liked="{% if post.id in liked %}true{% else %}false{% endif %}">
                     {% if post.id in liked %}
                     {% if user.is_authenticated %}
@@ -35,10 +22,3 @@
         </div>
     {% endfor %}
 </div>
-
-{% include 'network/paginator.html' %}
-
-
-{% endblock %}
-
-

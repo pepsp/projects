@@ -17,6 +17,7 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="author_comment")
     content = models.CharField(max_length=100)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True, related_name="post_comment")
+    date = models.DateTimeField(auto_now_add=True)
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

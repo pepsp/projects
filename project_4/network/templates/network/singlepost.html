@@ -3,18 +3,28 @@
 
 {% block body %}
 <script src="{% static 'network/singlepost.js' %}"></script>
+
+
 <div class="post">
-    <div class="author">@{{ post.user }}</div>
+    <div class="author"><a href="{% url 'profile' post.user %}">@{{ post.user }}</a></div>
     <div class="content">
         {{ post.content }}
     </div>
     <div class="timestamp">{{ post.date }}</div>
 
-    {% if user.is_authenticated %}
     <div class="actions">
-        <button class="like-button">
-            <i class="fa fa-heart"></i> Like
+        <button class="like-button" id="boton-{{post.id}}" data-post="{{post.id}}" data-liked="{% if post.id in liked %}true{% else %}false{% endif %}">
+            {% if post.id in liked %}
+            {% if user.is_authenticated %}
+            <i class="fa fa-heart liked" id="icon-{{post.id}}"></i>
+            {% endif %}
+            {% else %}
+            <i class="fa fa-heart" id="icon-{{post.id}}"></i>
+            {% endif %}
+
+            <p id="contador-{{post.id}}">{{post.like_set.count}}</p>
         </button>
+        {% if user.is_authenticated %}
         <button class="comment-button" id="open-comment">
             <i class="fa fa-comment"></i> Comment</button>
     </div>
@@ -35,9 +45,9 @@
 </div>
 
 {% for comment in comments %}
-<div>
+<div class="contenedor">
     <div>
-        <p>{{comment.author}} says:</p>
+        <p><a href="{% url 'profile' comment.author %}">@{{comment.author}}</a> says:</p><p class="timestamp">({{comment.date}})</p>
         </div>
         <div>
             <p><span>{{comment.content}}</span></p>
