@@ -50,6 +50,7 @@ h2{
   .comment .message {
     margin-top: 5px;
     color: black;
+    font-weight: bold;
   }
 
   #all-posts{

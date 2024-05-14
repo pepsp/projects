@@ -7,9 +7,20 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+import json
+
 
 
 from .models import User, Post, Comment, Like, Follow
+
+def edit(request, post_id):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        post = Post.objects.get(pk=post_id)
+        post.content = data["content"]
+        post.save()
+        return JsonResponse({"message": "Change successful",
+                             "data": data["content"]})
 
 @login_required
 def following(request):
@@ -149,12 +160,11 @@ def index(request):
 def post(request, id):
     post = get_object_or_404(Post, id=id)
     comments = Comment.objects.filter(post=post).order_by("-date")
-
+    
     if request.user.is_authenticated:
         liked = set(Like.objects.filter(user=request.user).values_list('post_id', flat=True))
     else:
         liked = []
-
 
     if request.method == "POST":
         if 'post-comment' in request.POST:
@@ -162,8 +172,7 @@ def post(request, id):
     return render(request, "network/singlepost.html", {
         "post": post,
         "comments": comments,
-        "liked": liked
-    })
+        "liked": liked    })
 
 
 
