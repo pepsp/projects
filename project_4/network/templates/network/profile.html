@@ -9,9 +9,12 @@
 
 <div class="contenedor">
     <h1>{{username}}</h1>
-    
+    <p class="fofo">Followers: <span class="fofo" id="followers-{{ username }}">{{ following }}</span></p>
+    <p class="fofo">Following: <span class="fofo" id="following-{{ username }}">{{ followers }}</span></p>
+
+    {% if user.is_authenticated %}
     {% if username != user.username %}
-    {% if login_user in followed %}
+    {% if username in followed %}
     <div>
         <button class="follow-button unfollow" id="follow-{{username}}" data-username="{{username}}" data-followed="true">Unfollow</button>
     </div>
@@ -21,7 +24,12 @@
     </div>
     {% endif %}
     {% endif %}
+    {% endif %}
 </div>
+
+{% if posts|length == 0 %}
+    <h1 style="padding: 10%;">NO POSTS YET</h1>
+{% else %}
 
 <div id="all-posts" class="contenedor">
     {% for post in posts %}
@@ -48,8 +56,12 @@
     {% endfor %}
 </div>
 
+
+
 {% include 'network/paginator.html' %}
 
+
+{% endif %}
 
 {% endblock %}
 

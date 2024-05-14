@@ -1,0 +1,20 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<script src="{% static 'network/profile.js' %}"></script>
+
+    <h1>Following</h1>
+    {% if posts == 0 %}
+    <h2>No users followed</h2>
+{% else %}
+
+    {% include 'network/all-posts.html' %}
+
+    {% include 'network/paginator.html' %}
+{% endif %}
+  
+{% endblock %}
+
+

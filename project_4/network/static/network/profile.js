@@ -59,6 +59,8 @@ if(liked === 'true'){
 
 function followHandler(username, followed){
     let followButton = document.getElementById(`follow-${username}`);
+    let followers =  document.getElementById(`followers-${username}`);
+    let contador = followers.innerHTML;
 
 if(followed === 'true'){
     fetch(`/unfollow/${username}`)
@@ -66,6 +68,8 @@ if(followed === 'true'){
         if (response.ok) {
 
             followButton.classList.remove('unfollow');
+            contador--;
+            followers.innerHTML=contador;
             followButton.setAttribute('data-followed','false')
             followButton.textContent = 'Follow';
             console.log("User unfollowed successfully");
@@ -77,7 +81,8 @@ if(followed === 'true'){
     fetch(`/follow/${username}`)
     .then(response => {
         if (response.ok) {
-
+            contador++;
+            followers.innerHTML=contador;
             followButton.classList.add('unfollow');
             followButton.setAttribute('data-followed','true')
             followButton.textContent = 'Unfollow';

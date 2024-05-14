@@ -24,6 +24,7 @@
 
             <p id="contador-{{post.id}}">{{post.like_set.count}}</p>
         </button>
+        
         {% if user.is_authenticated %}
         <button class="comment-button" id="open-comment">
             <i class="fa fa-comment"></i> Comment</button>

@@ -6,10 +6,34 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 
 from .models import User, Post, Comment, Like, Follow
 
+@login_required
+def following(request):
+    followed_users = User.objects.filter(following__following=request.user)
+
+    posts = Post.objects.filter(user__in=followed_users).order_by('-date')
+    if posts.exists():
+        page_obj = paginator(request, posts, 10)
+        liked = set(Like.objects.filter(user=request.user).values_list('post_id', flat=True))
+    else:
+        posts = 0
+        page_obj=0
+        liked=0
+
+    print(posts)
+    
+    return render(request, "network/following.html", {
+        "posts": page_obj,
+        "page_obj": page_obj,
+        "liked": liked
+    })
+
+
+@login_required
 def unfollow(request, username):
     follower = User.objects.get(username=username)
     following = request.user
@@ -17,6 +41,8 @@ def unfollow(request, username):
     follow.delete()
     return JsonResponse({"message": "User succesfully unfollowed!"})
 
+
+@login_required
 def follow(request, username):
     follower = User.objects.get(username=username)
     following = request.user
@@ -27,7 +53,7 @@ def follow(request, username):
     new_follow.save()
     return JsonResponse({"message": "User succesfully followed!"})
 
-
+@login_required
 def unlike(request, post_id):
     post = Post.objects.get(pk=post_id)
     user = request.user
@@ -35,6 +61,8 @@ def unlike(request, post_id):
     like.delete()
     return JsonResponse({"message": "Like remove!"})
 
+
+@login_required
 def like(request, post_id):
     post = Post.objects.get(pk=post_id)
     user = request.user
@@ -42,6 +70,8 @@ def like(request, post_id):
     new_like.save()
     return JsonResponse({"message": "Like added!"})
 
+
+@login_required
 def comment(request, id):
     comment_form = request.POST.get("post-comment")
     post = Post.objects.get(pk=id)
@@ -59,12 +89,16 @@ def profile(request, username):
     posts = Post.objects.filter(user=user).order_by('-date')
     page_obj = paginator(request, posts, 10)
 
+    profile_user = get_object_or_404(User, username=user)
+    followers_count = profile_user.followers.count()
+    following_count = profile_user.following.count()
+    print(profile_user)
+
 
     if request.user.is_authenticated:
-        login_user = request.user
         liked = set(Like.objects.filter(user=request.user).values_list('post_id', flat=True))
-        followed= set(User.objects.filter(followers__following=request.user))
-        print(followed)
+        followed_users = User.objects.filter(following__following=request.user)
+        followed = [followed_user.username for followed_user in followed_users]
     else:
         liked = []
         followed = []
@@ -76,7 +110,8 @@ def profile(request, username):
         "page_obj": page_obj,
         "liked": liked,
         "followed": followed,
-        "login_user": login_user
+        "followers": followers_count,
+        "following": following_count
     })
 
 def paginator(request, posts, number):

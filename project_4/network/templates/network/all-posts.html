@@ -1,8 +1,9 @@
 <div id="all-posts" class="contenedor">
     {% for post in posts %}
-    <a href="{% url 'post' post.id %}" class="no-link">
+    
         <div class="comment post display">
-            <div class="author">@{{ post.user }}</div>
+            <div class="author"><a href="{% url 'profile' post.user %}">@{{ post.user }}</a></div>
+            <a href="{% url 'post' post.id %}" class="no-link">
             <div class="message">{{ post.content }}</div>
             <div class="timestamp">{{ post.date }}</div>
         </a>
@@ -18,7 +19,12 @@
 
                     <p id="contador-{{post.id}}">{{post.like_set.count}}</p>
                 </button>
+
+                <button class="comment-button" id="open-comment" onclick="window.location.href = '{% url 'post' post.id %}'">
+                    <i class="fa fa-comment"></i> {{post.post_comment.count}}</button>
             </div>
+                
+
         </div>
     {% endfor %}
 </div>
